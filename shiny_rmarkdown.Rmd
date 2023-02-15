@@ -1,0 +1,34 @@
+---
+title: "ShinyApp"
+author: "R. Spellenberg"
+date: "2023-02-15"
+output: html_document
+---
+
+```{r setup, include=TRUE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+```{r Ashley Cooper}
+### Ashley codes here
+
+
+```
+
+
+```{r Sydney Mayes}
+### Sydney codes here
+
+
+
+```
+
+
+```{r Rachel Spellenberg}
+### Rachel codes here
+
+
+
+```
