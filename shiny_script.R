@@ -3,6 +3,12 @@ library(tidyverse)
 library(palmerpenguins)
 
 ### Create the user interface (shiny uses camelCase)
+counties <- read_csv(here("data","counties_irrigation.csv"))
+
+counties_clean <- counties %>% 
+  clean_names()
+
+
 ui <- fluidPage(
   titlePanel("I am adding a title!"),
   sidebarLayout(
