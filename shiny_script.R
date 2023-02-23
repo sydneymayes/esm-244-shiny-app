@@ -23,7 +23,7 @@ counties_mod <- counties_clean %>%
 
 ### Create the user interface (shiny uses camelCase)
 ui <- fluidPage(theme = shinytheme('sandstone'),
-  navbarPage("ET in California",
+  navbarPage("Irrigation Efficiency and Crop Type",
              tabPanel("Counties",
                       sidebarLayout(
                         sidebarPanel = ("WIDGETS",
@@ -37,7 +37,12 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                         
                       ) # end sidebarLayout
                       ), # end tabPanel 'Counties'
-             tabPanel("Crop Type"),
+             tabPanel("Crop Type", ### ! WE DON'T HAVE THIS DATA YET !
+                      selectInput(inputId = 'pick_crop',
+                                  label = 'Choose crop type:',
+                                  choices = unique(counties_mod$crop) ### make sure to update once we get real data here
+                      ) # end selectInput
+             ), #end sidebarLayout),
              tabPanel("TBD")
              ) #end navbarPage
 ) # end ui
