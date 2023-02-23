@@ -1,10 +1,10 @@
 library(shiny)
+library(shinythemes)
 library(tidyverse)
 library(here)
 library(dplyr)
 library(janitor)
 
-### Create the user interface (shiny uses camelCase)
 counties <- read_csv(here("data","counties_irrigation.csv"))
 
 counties_clean <- counties %>% 
@@ -21,26 +21,27 @@ counties_mod <- counties_clean %>%
                             name %in% sc ~ "Southern California"))
 
 
-ui <- fluidPage(
-  titlePanel("I am adding a title!"),
-  sidebarLayout(
-    sidebarPanel("Put my widgets here!",
-                 radioButtons(inputId = 'crop', ### make sure variable name is correct
-                              label = "Choose crop type!",
-                              choices = c("x", "y", "z")),
-                 "Choose a color",
-                 selectInput(inputId = 'pt_color',
-                             label = 'choose your favorite color!',
-                             choices = c('Awesome Red' = 'red',
-                                         'pretty purple' = 'purple',
-                                         'OOOOOrange' = 'orange'))
-    ), ### end sidebarPanel
-    mainPanel("Put my graph here!",
-              plotOutput(outputId = 'penguin_plot'),
-              tableOutput(outputId = 'penguin_table')
-    ) ### end mainPanel
-  ) ### end sidebarLayout here
-) ### end fluidPage here
+### Create the user interface (shiny uses camelCase)
+ui <- fluidPage(theme = shinytheme('sandstone'),
+  navbarPage("ET in California",
+             tabPanel("Counties",
+                      sidebarLayout(
+                        sidebarPanel = ("WIDGETS",
+                                        selectInput(inputId = 'pick_counties',
+                                                    label = 'Choose a county:',
+                                                    choices = unique(counties_mod$name)
+                                                    ) # end selectInput
+                                        ), #end sidebarLayout
+                        
+                        mainPanel = ("OUTPUT!")
+                        
+                      ) # end sidebarLayout
+                      ), # end tabPanel 'Counties'
+             tabPanel("Crop Type"),
+             tabPanel("TBD")
+             ) #end navbarPage
+) # end ui
+ 
 
 ### Create the server function
 server <- function(input, output){
