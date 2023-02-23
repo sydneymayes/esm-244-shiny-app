@@ -5,7 +5,7 @@ library(here)
 library(dplyr)
 library(janitor)
 
-# Hey Rachel, do you like eggs? 
+# Hey Syd, YESI DOOOO LIKE AYYGGS
 
 counties <- read_csv(here("data","counties_irrigation.csv"))
 
