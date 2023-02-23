@@ -5,6 +5,8 @@ library(here)
 library(dplyr)
 library(janitor)
 
+# Hey Rachel, do you like eggs? 
+
 counties <- read_csv(here("data","counties_irrigation.csv"))
 
 counties_clean <- counties %>% 
