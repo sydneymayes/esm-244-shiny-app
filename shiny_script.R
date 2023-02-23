@@ -75,7 +75,15 @@ server <- function(input, output){
   
   output$penguin_table <- renderTable({
     penguin_table()
+    
+    
   })
+  
+  output$irrigation_image <- renderImage({
+    
+    list(src = "irrigation_efficiency_image.png",
+         width = "100%",
+         height = 330) }, deleteFile = FALSE)
 }
 
 ### Combine these into an app
