@@ -7,17 +7,31 @@ library(janitor)
 library(sf)
 library(tmap)
 
+### CA counties data set from Anna, we'll need to use one with crop type when we're ready
 et_counties <- read_csv(here("data","counties_irrigation.csv"))
 
 et_counties_clean <- et_counties %>% 
   clean_names()
 
+### CA counties shapefile
 ca_counties_sf <- read_sf(here("data/ca_counties/CA_Counties_TIGER2016.shp")) %>% 
   clean_names()
 
 ca_subset_sf <- ca_counties_sf %>% 
   janitor::clean_names() %>% 
   select(county_name = name, land_area = aland)
+
+### converting data frame to shapefile
+et_counties_clean <- et_counties_clean %>% 
+  drop_na()
+
+et_counties_sf <- st_as_sf(et_counties_clean, coords = c("lon", 'lat'),
+                           crs = st_crs(ca_counties_sf))
+
+
+
+
+
 
 # creating regions and region column
 cv = c('Butte', 'Colusa', 'Fresno', 'Glenn', 'Kern', 'Kings', 'Madera', 'Merced', 'Placer', 'San Joaquin', 'Sacramento', 'Shasta', 'Solano', 'Stanislaus', 'Sutter', 'Tehama', 'Tulare', 'Yolo', 'Yuba')
