@@ -26,14 +26,15 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
   navbarPage("Irrigation Efficiency and Crop Type",
              tabPanel("Counties",
                       sidebarLayout(
-                        sidebarPanel = ("WIDGETS",
-                                        selectInput(inputId = 'pick_counties',
-                                                    label = 'Choose a county:',
-                                                    choices = unique(counties_mod$name)
-                                                    ) # end selectInput
-                                        ), #end sidebarPanel
+                        sidebarPanel(
+                          "WIDGETS",
+                          selectInput(inputId = 'pick_counties',
+                                      label = 'Choose a county:',
+                                      choices = unique(counties_mod$name)
+                                      ) # end selectInput
+                                    ), #end sidebarPanel
                         
-                        mainPanel = ("OUTPUT!")
+                        mainPanel("OUTPUT!")
                         
                       ) # end sidebarLayout
                       ), # end tabPanel 'Counties'
