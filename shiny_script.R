@@ -5,8 +5,6 @@ library(here)
 library(dplyr)
 library(janitor)
 
-# Hey Syd, YESI DOOOO LIKE AYYGGS
-
 counties <- read_csv(here("data","counties_irrigation.csv"))
 
 counties_clean <- counties %>% 
@@ -33,7 +31,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                                     label = 'Choose a county:',
                                                     choices = unique(counties_mod$name)
                                                     ) # end selectInput
-                                        ), #end sidebarLayout
+                                        ), #end sidebarPanel
                         
                         mainPanel = ("OUTPUT!")
                         
