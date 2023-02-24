@@ -4,18 +4,27 @@ library(tidyverse)
 library(here)
 library(dplyr)
 library(janitor)
+library(sf)
+library(tmap)
 
-counties <- read_csv(here("data","counties_irrigation.csv"))
+et_counties <- read_csv(here("data","counties_irrigation.csv"))
 
-counties_clean <- counties %>% 
+et_counties_clean <- et_counties %>% 
   clean_names()
+
+ca_counties_sf <- read_sf(here("data/ca_counties/CA_Counties_TIGER2016.shp")) %>% 
+  clean_names()
+
+ca_subset_sf <- ca_counties_sf %>% 
+  janitor::clean_names() %>% 
+  select(county_name = name, land_area = aland)
 
 # creating regions and region column
 cv = c('Butte', 'Colusa', 'Fresno', 'Glenn', 'Kern', 'Kings', 'Madera', 'Merced', 'Placer', 'San Joaquin', 'Sacramento', 'Shasta', 'Solano', 'Stanislaus', 'Sutter', 'Tehama', 'Tulare', 'Yolo', 'Yuba')
 nc = c('Alameda', 'Alpine', 'Amador', 'Calaveras', 'Contra Costa', 'Del Norte', 'El Dorado', 'Humboldt', 'Inyo', 'Lake', 'Lassen', 'Marin', 'Mariposa', 'Mendocino', 'Modoc', 'Mono', 'Monterey', 'Napa', 'Nevada', 'Placer', 'Plumas', 'San Benito', 'San Francisco', 'San Mateo', 'Santa Clara', 'Santa Cruz', 'Sierra', 'Siskiyou', 'Sonoma', 'Trinity', 'Tuolumne')
 sc = c('Imperial', 'Los Angeles', 'Orange', 'Riverside', 'San Bernardino', 'San Diego', 'San Luis Obispo', 'Santa Barbara', 'Ventura')
 
-counties_mod <- counties_clean %>% 
+et_counties_mod <- et_counties_clean %>% 
   mutate(region = case_when(name %in% cv ~ "Central Valley",
                             name %in% nc ~ "Northern California",
                             name %in% sc ~ "Southern California"))
@@ -30,7 +39,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                           "WIDGETS",
                           selectInput(inputId = 'pick_counties',
                                       label = 'Choose a county:',
-                                      choices = unique(counties_mod$name)
+                                      choices = unique(et_counties_mod$name)
                                       ) # end selectInput
                                     ), #end sidebarPanel
                         
@@ -41,7 +50,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
              tabPanel("Crop Type", ### ! WE DON'T HAVE THIS DATA YET !
                       selectInput(inputId = 'pick_crop',
                                   label = 'Choose crop type:',
-                                  choices = unique(counties_mod$crop) ### make sure to update once we get real data here
+                                  choices = unique(et_counties_mod$crop) ### make sure to update once we get real data here
                       ) # end selectInput
              ), #end sidebarLayout),
              tabPanel("TBD")
