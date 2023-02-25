@@ -21,19 +21,15 @@ ca_subset_sf <- ca_counties_sf %>%
   janitor::clean_names() %>% 
   select(county_name = name, land_area = aland)
 
-### converting data frame to shapefile
-et_counties_clean <- et_counties_clean %>% 
+### converting data frame from Anna to shapefile
+et_counties_clean_dropna <- et_counties_clean %>% 
   drop_na()
 
-et_counties_sf <- st_as_sf(et_counties_clean, coords = c("lon", 'lat'),
+et_counties_sf <- st_as_sf(et_counties_clean_dropna, coords = c("lon", 'lat'),
                            crs = st_crs(ca_counties_sf))
 
 
-
-
-
-
-# creating regions and region column
+### creating regions and region column
 cv = c('Butte', 'Colusa', 'Fresno', 'Glenn', 'Kern', 'Kings', 'Madera', 'Merced', 'Placer', 'San Joaquin', 'Sacramento', 'Shasta', 'Solano', 'Stanislaus', 'Sutter', 'Tehama', 'Tulare', 'Yolo', 'Yuba')
 nc = c('Alameda', 'Alpine', 'Amador', 'Calaveras', 'Contra Costa', 'Del Norte', 'El Dorado', 'Humboldt', 'Inyo', 'Lake', 'Lassen', 'Marin', 'Mariposa', 'Mendocino', 'Modoc', 'Mono', 'Monterey', 'Napa', 'Nevada', 'Placer', 'Plumas', 'San Benito', 'San Francisco', 'San Mateo', 'Santa Clara', 'Santa Cruz', 'Sierra', 'Siskiyou', 'Sonoma', 'Trinity', 'Tuolumne')
 sc = c('Imperial', 'Los Angeles', 'Orange', 'Riverside', 'San Bernardino', 'San Diego', 'San Luis Obispo', 'Santa Barbara', 'Ventura')
