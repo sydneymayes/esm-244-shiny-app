@@ -50,17 +50,21 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                         sidebarPanel(
                           "WIDGETS",
                           virtualSelectInput(
-                            inputId = "id",
-                            label = "Select Counties",
-                            choices = list(
-                              "Northern California" = nc,
-                              "Central Valley" = cv,
-                              "Southern California" = sc
-                            ),
-                            showValueAsTags = TRUE,
-                            search = TRUE,
-                            multiple = TRUE
-                          ) # end virtualSelectInput
+                                            inputId = "id",
+                                            label = "Select Counties",
+                                            choices = list(
+                                            "Northern California" = nc,
+                                            "Central Valley" = cv,
+                                            "Southern California" = sc
+                                                          ),
+                                            showValueAsTags = TRUE,
+                                            search = TRUE,
+                                            multiple = TRUE
+                                            ), # end virtualSelectInput
+                          selectInput(inputId = 'pick_variables',
+                                      label = 'Choose a variable:',
+                                      choices = c("mm_year", "mm_day", "flood")
+                          ) # end selectInput
                                     ), #end sidebarPanel
                         
                         mainPanel("OUTPUT!")
