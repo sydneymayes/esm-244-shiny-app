@@ -51,17 +51,16 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                           "WIDGETS",
                           virtualSelectInput(
                             inputId = "id",
-                            label = "Select:",
+                            label = "Select Counties",
                             choices = list(
-                              "Spring" = c("March", "April", "May"),
-                              "Summer" = c("June", "July", "August"),
-                              "Autumn" = c("September", "October", "November"),
-                              "Winter" = c("December", "January", "February")
+                              "Northern California" = nc,
+                              "Central Valley" = cv,
+                              "Southern California" = sc
                             ),
                             showValueAsTags = TRUE,
                             search = TRUE,
                             multiple = TRUE
-                          ) # end selectInput
+                          ) # end virtualSelectInput
                                     ), #end sidebarPanel
                         
                         mainPanel("OUTPUT!")
