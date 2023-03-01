@@ -6,6 +6,7 @@ library(dplyr)
 library(janitor)
 library(sf)
 library(tmap)
+library(shinyWidgets)
 
 ### CA counties data set from Anna, we'll need to use one with crop type when we're ready
 et_counties <- read_csv(here("data","counties_irrigation.csv"))
@@ -48,10 +49,19 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                       sidebarLayout(
                         sidebarPanel(
                           "WIDGETS",
-                          selectInput(inputId = 'pick_counties',
-                                      label = 'Choose a county:',
-                                      choices = unique(et_counties_mod$name)
-                                      ) # end selectInput
+                          virtualSelectInput(
+                            inputId = "id",
+                            label = "Select:",
+                            choices = list(
+                              "Spring" = c("March", "April", "May"),
+                              "Summer" = c("June", "July", "August"),
+                              "Autumn" = c("September", "October", "November"),
+                              "Winter" = c("December", "January", "February")
+                            ),
+                            showValueAsTags = TRUE,
+                            search = TRUE,
+                            multiple = TRUE
+                          ) # end selectInput
                                     ), #end sidebarPanel
                         
                         mainPanel("OUTPUT!")
