@@ -24,12 +24,23 @@ ca_subset_sf <- ca_counties_sf %>%
   janitor::clean_names() %>% 
   select(county_name = name, land_area = aland)
 
+ca_subset_for_merge <- ca_subset_sf %>% 
+  as.data.frame() %>% 
+  select(-geometry)
+
 ### converting data frame from Anna to shapefile
+
+### First, we need to merge to add land area column into ET dataset from Anna
+
 et_counties_clean_dropna <- et_counties_clean %>% 
   drop_na()
 
+et_counties_merged <- merge(et_counties_clean_dropna, ca_subset_for_merge) %>% 
+  distinct()
+
 et_counties_sf <- st_as_sf(et_counties_clean_dropna, coords = c("lon", 'lat'),
                            crs = st_crs(ca_counties_sf))
+
 
 ### creating regions and region column
 cv = c('Butte', 'Colusa', 'Fresno', 'Glenn', 'Kern', 'Kings', 'Madera', 'Merced', 'Placer', 'San Joaquin', 'Sacramento', 'Shasta', 'Solano', 'Stanislaus', 'Sutter', 'Tehama', 'Tulare', 'Yolo', 'Yuba')
@@ -122,25 +133,19 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
 
 ### Create the server function
 server <- function(input, output){
+  
+  
   penguin_select <- reactive({
     penguins %>%
       filter(species == input$penguin_species)
   })
+
   
-  penguin_table <- reactive({
-    penguins %>%
-      filter(species == input$penguin_species) %>%
-      group_by(sex) %>%
-      summarize(mean_flip = mean(flipper_length_mm),
-                mean_mass = mean(body_mass_g))
-  }) ### end penguin_table
-  
-  output$penguin_plot <- renderPlot({
+  output$ca_map <- renderPlot({
     
-    ggplot(data = penguin_select(),
-           aes(x = flipper_length_mm, y = body_mass_g)) +
-      geom_point(color = input$pt_color) +
-      theme_minimal()
+    ggplot(data = et_counties_sf)
+      geom_sf(aes(fill = input$mm_year), color = 'gray20', size = 0.1) +
+      scale_fill_gradientn(colors = input$pick_variable_map) + theme_void()
   })
   
   output$penguin_table <- renderTable({
