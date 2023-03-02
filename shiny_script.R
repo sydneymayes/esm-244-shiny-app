@@ -26,7 +26,9 @@ ca_subset_sf <- ca_counties_sf %>%
 
 ca_subset_for_merge <- ca_subset_sf %>% 
   as.data.frame() %>% 
-  select(-geometry)
+  mutate(name = county_name) %>% 
+  select(-geometry, -county_name) 
+  
 
 ### converting data frame from Anna to shapefile
 
@@ -35,10 +37,11 @@ ca_subset_for_merge <- ca_subset_sf %>%
 et_counties_clean_dropna <- et_counties_clean %>% 
   drop_na()
 
-et_counties_merged <- merge(et_counties_clean_dropna, ca_subset_for_merge) %>% 
-  distinct()
+et_counties_merged <- total <- merge(et_counties_clean_dropna,
+                                     ca_subset_for_merge,
+                                     by = "name")
 
-et_counties_sf <- st_as_sf(et_counties_clean_dropna, coords = c("lon", 'lat'),
+et_counties_sf <- st_as_sf(et_counties_merged, coords = c("lon", 'lat'),
                            crs = st_crs(ca_counties_sf))
 
 
@@ -143,9 +146,10 @@ server <- function(input, output){
   
   output$ca_map <- renderPlot({
     
-    ggplot(data = et_counties_sf)
-      geom_sf(aes(fill = input$mm_year), color = 'gray20', size = 0.1) +
-      scale_fill_gradientn(colors = input$pick_variable_map) + theme_void()
+    ggplot() + 
+      geom_sf(data = et_counties_sf) +
+      # scale_fill_gradientn(colors = input$mm_year) +
+      theme_void()
   })
   
   output$penguin_table <- renderTable({
