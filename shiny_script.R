@@ -12,7 +12,8 @@ library(shinyWidgets)
 et_counties <- read_csv(here("data","counties_irrigation.csv"))
 
 et_counties_clean <- et_counties %>% 
-  clean_names()
+  clean_names() %>% 
+  mutate(nat_et_mm_year = et_mm_year - ag_et_mm_year)
 
 ### CA counties shapefile
 ca_counties_sf <- read_sf(here("data/ca_counties/CA_Counties_TIGER2016.shp")) %>% 
@@ -29,7 +30,6 @@ et_counties_clean_dropna <- et_counties_clean %>%
 et_counties_sf <- st_as_sf(et_counties_clean_dropna, coords = c("lon", 'lat'),
                            crs = st_crs(ca_counties_sf))
 
-
 ### creating regions and region column
 cv = c('Butte', 'Colusa', 'Fresno', 'Glenn', 'Kern', 'Kings', 'Madera', 'Merced', 'Placer', 'San Joaquin', 'Sacramento', 'Shasta', 'Solano', 'Stanislaus', 'Sutter', 'Tehama', 'Tulare', 'Yolo', 'Yuba')
 nc = c('Alameda', 'Alpine', 'Amador', 'Calaveras', 'Contra Costa', 'Del Norte', 'El Dorado', 'Humboldt', 'Inyo', 'Lake', 'Lassen', 'Marin', 'Mariposa', 'Mendocino', 'Modoc', 'Mono', 'Monterey', 'Napa', 'Nevada', 'Placer', 'Plumas', 'San Benito', 'San Francisco', 'San Mateo', 'Santa Clara', 'Santa Cruz', 'Sierra', 'Siskiyou', 'Sonoma', 'Trinity', 'Tuolumne')
@@ -40,11 +40,21 @@ et_counties_mod <- et_counties_clean %>%
                             name %in% nc ~ "Northern California",
                             name %in% sc ~ "Southern California"))
 
+### Graphics for Landing Page
+
+county_et_plot <- ggplot(data = et_counties_clean_dropna,
+                      aes(x = name, y = et_mm_year)) +
+  geom_histogram(aes(fill = name), color = "darkslategray", binwidth = 1, show.legend = FALSE) +
+  scale_color_viridis_b() +
+  labs(title = "", x = "County", y = "Average Annual Evapotranspiration (mm)") +
+  theme_bw()
 
 ### Create the user interface (shiny uses camelCase)
 ui <- fluidPage(theme = shinytheme('sandstone'),
   navbarPage("Irrigation Efficiency and Crop Type",
-             tabPanel("Overview"),
+             tabPanel("Overview",
+                      ), #End "Overview" tabPanel
+             
              tabPanel("Counties",
                       sidebarLayout(
                         sidebarPanel(
@@ -62,7 +72,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                             multiple = TRUE
                                             ), # end virtualSelectInput
                           selectInput(inputId = 'pick_variables',
-                                      label = 'Choose a variable:',
+                                      label = 'Select Variable(s)',
                                       choices = c("mm_year", "mm_day", "flood")
                           ) # end selectInput
                                     ), #end sidebarPanel
