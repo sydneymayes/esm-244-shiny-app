@@ -93,18 +93,15 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                       sidebarLayout(
                         sidebarPanel(
                           "WIDGETS",
-                          virtualSelectInput(
-                                            inputId = "select_county",
-                                            label = "Select Counties",
-                                            choices = list(
-                                            "Northern California" = nc,
-                                            "Central Valley" = cv,
-                                            "Southern California" = sc
-                                                          ),
-                                            showValueAsTags = TRUE,
-                                            search = TRUE,
-                                            multiple = TRUE
-                                            ), # end virtualSelectInput
+                          virtualSelectInput(inputId = "select_county",
+                                             label = "Select Counties",
+                                             choices = list("Northern California" = nc,
+                                                           "Central Valley" = cv,
+                                                           "Southern California" = sc),
+                                             showValueAsTags = TRUE,
+                                             search = TRUE,
+                                             multiple = TRUE
+                                             ), # end virtualSelectInput
                           selectInput(inputId = 'pick_variable',
                                       label = 'Select Variable(s)',
                                       choices = c("Irrigation (mm/yr)" = "mm_year", 
@@ -146,9 +143,12 @@ server <- function(input, output){
   
   output$ca_map <- renderPlot({
     
+    ### having issues with this map
+    ### I think that the data from Anna is showing up as points. We need to turn them into polygons based on the county shape
     ggplot() + 
-      geom_sf(data = et_counties_sf) +
-      # scale_fill_gradientn(colors = input$mm_year) +
+      geom_sf(data = et_counties_sf, aes(fill = land_area),
+              color = 'black', size = 0.1) +
+      scale_fill_gradientn(colors = c('cyan', 'blue', 'purple')) +
       theme_void()
   })
   
