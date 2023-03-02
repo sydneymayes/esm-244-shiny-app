@@ -43,14 +43,17 @@ final_sf <- et_counties_clean %>%
                names_to = "var",
                values_to = "values")
 
+color_df <- data.frame(var = c("mm_year", 'et_mm_year', 'ag_et_mm_year', 
+                         'pred_et_mm_year', 'irrigation_efficiency'),
+                       palette = c('Reds', 'Oranges', 'Yellows', 'Greens', 'Blues'))
 
 
 # et_counties_merged <- merge(et_counties_clean_dropna,
 #                                      ca_subset_for_merge,
 #                                      by = "name")
 
-et_counties_sf <- st_as_sf(et_counties_merged, coords = c("lon", 'lat'),
-                           crs = st_crs(ca_counties_sf))
+# et_counties_sf <- st_as_sf(et_counties_merged, coords = c("lon", 'lat'),
+#                            crs = st_crs(ca_counties_sf))
 
 
 ### creating regions and region column
@@ -65,12 +68,12 @@ et_counties_mod <- et_counties_clean %>%
 
 ### Graphics for Landing Page
 
-county_et_plot <- ggplot(data = et_counties_clean_dropna,
-                      aes(x = name, y = et_mm_year)) +
-  geom_histogram(aes(fill = name), color = "darkslategray", binwidth = 1, show.legend = FALSE) +
-  scale_color_viridis_b() +
-  labs(title = "", x = "County", y = "Average Annual Evapotranspiration (mm)") +
-  theme_bw()
+# county_et_plot <- ggplot(data = et_counties_clean_dropna,
+#                       aes(x = name, y = et_mm_year)) +
+#   geom_histogram(aes(fill = name), color = "darkslategray", binwidth = 1, show.legend = FALSE) +
+#   scale_color_viridis_b() +
+#   labs(title = "", x = "County", y = "Average Annual Evapotranspiration (mm)") +
+#   theme_bw()
 
 ### Create the user interface (shiny uses camelCase)
 ui <- fluidPage(theme = shinytheme('sandstone'),
@@ -148,15 +151,20 @@ server <- function(input, output){
       filter(var == input$pick_variable_map)
   })
 
+  var_color <- reactive({
+    color_df %>% 
+      filter(var == input$pick_variable_map)
+  })
+  
   
   output$ca_map <- renderPlot({
     
     ### having issues with this map
     ### I think that the data from Anna is showing up as points. We need to turn them into polygons based on the county shape
     ggplot() + 
-      geom_sf(data = map_fill(), aes(fill = values),
+      geom_sf(data = map_fill(), aes(fill = values, geometry = geometry),
               color = 'black', size = 0.1) +
-      scale_fill_gradientn(colors = c('cyan', 'blue', 'purple')) +
+      scale_fill_gradientn(colors = var_color()$palette) +
       theme_void()
   })
   
