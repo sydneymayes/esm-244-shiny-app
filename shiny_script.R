@@ -48,13 +48,6 @@ color_df <- data.frame(var = c("mm_year", 'et_mm_year', 'ag_et_mm_year',
                        palette = c('Reds', 'Oranges', 'Yellows', 'Greens', 'Blues'))
 
 
-# et_counties_merged <- merge(et_counties_clean_dropna,
-#                                      ca_subset_for_merge,
-#                                      by = "name")
-
-# et_counties_sf <- st_as_sf(et_counties_merged, coords = c("lon", 'lat'),
-#                            crs = st_crs(ca_counties_sf))
-
 
 ### creating regions and region column
 cv = c('Butte', 'Colusa', 'Fresno', 'Glenn', 'Kern', 'Kings', 'Madera', 'Merced', 'Placer', 'San Joaquin', 'Sacramento', 'Shasta', 'Solano', 'Stanislaus', 'Sutter', 'Tehama', 'Tulare', 'Yolo', 'Yuba')
@@ -159,8 +152,7 @@ server <- function(input, output){
   
   output$ca_map <- renderPlot({
     
-    ### having issues with this map
-    ### I think that the data from Anna is showing up as points. We need to turn them into polygons based on the county shape
+  
     ggplot() + 
       geom_sf(data = map_fill(), aes(fill = values, geometry = geometry),
               color = 'black', size = 0.1) +
