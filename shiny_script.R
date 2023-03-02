@@ -56,7 +56,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
              tabPanel("Overview",
                       sidebarLayout(
                         sidebarPanel(
-                          radioButtons(inputId = 'pick_variable',
+                          radioButtons(inputId = 'pick_variable_map',
                                        label = "Select to view in map",
                                        choices = c("Irrigation (mm/yr)" = "mm_year", 
                                                    "Total ET (mm/yr)" = "et_mm_year", 
@@ -66,7 +66,9 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                        ) # end of radioButtons
                                      ), # End of Overview sidebarPanel
                         
-                        mainPanel("OUTPUT!")
+                        mainPanel("Put my map here!",
+                                   plotOutput(outputId = 'ca_map')
+                                  ) ### end mainPanel
                         
                                     ), #end of Overview sideBarLayout
                       ), #End "Overview" tabPanel
@@ -78,7 +80,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                         sidebarPanel(
                           "WIDGETS",
                           virtualSelectInput(
-                                            inputId = "id",
+                                            inputId = "select_county",
                                             label = "Select Counties",
                                             choices = list(
                                             "Northern California" = nc,
@@ -89,7 +91,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                             search = TRUE,
                                             multiple = TRUE
                                             ), # end virtualSelectInput
-                          selectInput(inputId = 'pick_variables',
+                          selectInput(inputId = 'pick_variable',
                                       label = 'Select Variable(s)',
                                       choices = c("Irrigation (mm/yr)" = "mm_year", 
                                                   "Total ET (mm/yr)" = "et_mm_year", 
@@ -99,7 +101,10 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                      ) # end selectInput
                                      ), #end sidebarPanel
                         
-                        mainPanel("OUTPUT!")
+                        mainPanel("Put my graph here!",
+                                  plotOutput(outputId = 'counties_plot'),
+                                  tableOutput(outputId = 'counties_table')
+                                 ) ### end mainPanel
                         
                                     ) # end sidebarLayout
                       ), # end tabPanel 'Counties'
@@ -112,7 +117,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                   ) # end of crop type selectInput
                      ), #end crop type tabPanel
              ) #end navbarPage
-) # end of ui
+) # end of fluidPage
 
 
 ### Create the server function
