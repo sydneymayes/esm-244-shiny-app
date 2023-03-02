@@ -56,12 +56,22 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
              tabPanel("Overview",
                       sidebarLayout(
                         sidebarPanel(
-                          radioButtons(inputId = 'penguin_species',
-                                       label = "Chose penguin species!",
-                                       choices = c("Adelie", "Gentoo", "Cool Chinstrap" = "Chinstrap")),
-                                     "Choose a color",
-                      ) # End of sidebarPanel
+                          radioButtons(inputId = 'pick_variable',
+                                       label = "Select to view in map",
+                                       choices = c("Irrigation (mm/yr)" = "mm_year", 
+                                                   "Total ET (mm/yr)" = "et_mm_year", 
+                                                   "Agricultural ET (mm/yr)" = "ag_et_mm_year", 
+                                                   "Natural ET (mm/yr)" = "pred_et_mm_year", 
+                                                   "Irrigation Efficiency" = "irrigation_efficiency")
+                                       ) # end of radioButtons
+                                     ), # End of Overview sidebarPanel
+                        
+                        mainPanel("OUTPUT!")
+                        
+                                    ), #end of Overview sideBarLayout
                       ), #End "Overview" tabPanel
+             
+             
              
              tabPanel("Counties",
                       sidebarLayout(
@@ -82,22 +92,24 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                           selectInput(inputId = 'pick_variables',
                                       label = 'Select Variable(s)',
                                       choices = c("mm_year", "mm_day", "flood")
-                          ) # end selectInput
-                                    ), #end sidebarPanel
+                                     ) # end selectInput
+                                     ), #end sidebarPanel
                         
                         mainPanel("OUTPUT!")
                         
-                      ) # end sidebarLayout
+                                    ) # end sidebarLayout
                       ), # end tabPanel 'Counties'
+             
+             
              tabPanel("Crop Type", ### ! WE DON'T HAVE THIS DATA YET !
                       selectInput(inputId = 'pick_crop',
                                   label = 'Choose crop type:',
                                   choices = unique(et_counties_mod$crop) ### make sure to update once we get real data here
-                      ) # end selectInput
-             ), #end sidebarLayout
+                                  ) # end of crop type selectInput
+                     ), #end crop type tabPanel
              ) #end navbarPage
-) # end ui
- 
+) # end of ui
+
 
 ### Create the server function
 server <- function(input, output){
