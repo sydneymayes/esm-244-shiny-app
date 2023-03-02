@@ -13,7 +13,8 @@ et_counties <- read_csv(here("data","counties_irrigation.csv"))
 
 et_counties_clean <- et_counties %>% 
   clean_names() %>% 
-  mutate(nat_et_mm_year = et_mm_year - ag_et_mm_year)
+  mutate(pred_et_mm_year = et_mm_year - ag_et_mm_year) %>% 
+  select(name, mm_year, et_mm_year, ag_et_mm_year, pred_et_mm_year, irrigation_efficiency, lon, lat)
 
 ### CA counties shapefile
 ca_counties_sf <- read_sf(here("data/ca_counties/CA_Counties_TIGER2016.shp")) %>% 
@@ -53,6 +54,13 @@ county_et_plot <- ggplot(data = et_counties_clean_dropna,
 ui <- fluidPage(theme = shinytheme('sandstone'),
   navbarPage("Irrigation Efficiency and Crop Type",
              tabPanel("Overview",
+                      sidebarLayout(
+                        sidebarPanel(
+                          radioButtons(inputId = 'penguin_species',
+                                       label = "Chose penguin species!",
+                                       choices = c("Adelie", "Gentoo", "Cool Chinstrap" = "Chinstrap")),
+                                     "Choose a color",
+                      ) # End of sidebarPanel
                       ), #End "Overview" tabPanel
              
              tabPanel("Counties",
@@ -86,7 +94,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                   label = 'Choose crop type:',
                                   choices = unique(et_counties_mod$crop) ### make sure to update once we get real data here
                       ) # end selectInput
-             ), #end sidebarLayout),
+             ), #end sidebarLayout
              ) #end navbarPage
 ) # end ui
  
