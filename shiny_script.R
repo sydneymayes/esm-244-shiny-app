@@ -22,24 +22,32 @@ ca_counties_sf <- read_sf(here("data/ca_counties/CA_Counties_TIGER2016.shp")) %>
 
 ca_subset_sf <- ca_counties_sf %>% 
   janitor::clean_names() %>% 
-  select(county_name = name, land_area = aland)
+  select(name)
 
-ca_subset_for_merge <- ca_subset_sf %>% 
-  as.data.frame() %>% 
-  mutate(name = county_name) %>% 
-  select(-geometry, -county_name) 
+# # ca_subset_for_merge <- ca_subset_sf %>% 
+#   as.data.frame() %>% 
+#   mutate(name = county_name) %>% 
+#   select(-geometry, -county_name) 
   
 
 ### converting data frame from Anna to shapefile
 
 ### First, we need to merge to add land area column into ET dataset from Anna
 
-et_counties_clean_dropna <- et_counties_clean %>% 
-  drop_na()
+final_sf <- et_counties_clean %>% 
+  drop_na() %>% 
+  full_join(y = ca_subset_sf,
+             by = "name") %>%
+  select(-lon, -lat) %>% 
+  pivot_longer(cols = mm_year:irrigation_efficiency,
+               names_to = "var",
+               values_to = "values")
 
-et_counties_merged <- total <- merge(et_counties_clean_dropna,
-                                     ca_subset_for_merge,
-                                     by = "name")
+
+
+# et_counties_merged <- merge(et_counties_clean_dropna,
+#                                      ca_subset_for_merge,
+#                                      by = "name")
 
 et_counties_sf <- st_as_sf(et_counties_merged, coords = c("lon", 'lat'),
                            crs = st_crs(ca_counties_sf))
@@ -135,9 +143,9 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
 server <- function(input, output){
   
   
-  penguin_select <- reactive({
-    penguins %>%
-      filter(species == input$penguin_species)
+  map_fill <- reactive({
+    final_sf %>%
+      filter(var == input$pick_variable_map)
   })
 
   
@@ -146,7 +154,7 @@ server <- function(input, output){
     ### having issues with this map
     ### I think that the data from Anna is showing up as points. We need to turn them into polygons based on the county shape
     ggplot() + 
-      geom_sf(data = et_counties_sf, aes(fill = land_area),
+      geom_sf(data = map_fill(), aes(fill = values),
               color = 'black', size = 0.1) +
       scale_fill_gradientn(colors = c('cyan', 'blue', 'purple')) +
       theme_void()
