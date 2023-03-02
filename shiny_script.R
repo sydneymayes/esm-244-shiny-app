@@ -91,7 +91,11 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                             ), # end virtualSelectInput
                           selectInput(inputId = 'pick_variables',
                                       label = 'Select Variable(s)',
-                                      choices = c("mm_year", "mm_day", "flood")
+                                      choices = c("Irrigation (mm/yr)" = "mm_year", 
+                                                  "Total ET (mm/yr)" = "et_mm_year", 
+                                                  "Agricultural ET (mm/yr)" = "ag_et_mm_year", 
+                                                  "Natural ET (mm/yr)" = "pred_et_mm_year", 
+                                                  "Irrigation Efficiency" = "irrigation_efficiency")
                                      ) # end selectInput
                                      ), #end sidebarPanel
                         
