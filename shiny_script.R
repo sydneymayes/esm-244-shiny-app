@@ -14,7 +14,8 @@ et_counties <- read_csv(here("data","counties_irrigation.csv"))
 et_counties_clean <- et_counties %>% 
   clean_names() %>% 
   mutate(pred_et_mm_year = et_mm_year - ag_et_mm_year) %>% 
-  select(name, mm_year, et_mm_year, ag_et_mm_year, pred_et_mm_year, irrigation_efficiency, lon, lat)
+  select(name, mm_year, et_mm_year, ag_et_mm_year, 
+         pred_et_mm_year, irrigation_efficiency, lon, lat)
 
 ### CA counties shapefile
 ca_counties_sf <- read_sf(here("data/ca_counties/CA_Counties_TIGER2016.shp")) %>% 
@@ -24,15 +25,7 @@ ca_subset_sf <- ca_counties_sf %>%
   janitor::clean_names() %>% 
   select(name)
 
-# # ca_subset_for_merge <- ca_subset_sf %>% 
-#   as.data.frame() %>% 
-#   mutate(name = county_name) %>% 
-#   select(-geometry, -county_name) 
-  
-
 ### converting data frame from Anna to shapefile
-
-### First, we need to merge to add land area column into ET dataset from Anna
 
 final_sf <- et_counties_clean %>% 
   drop_na() %>% 
@@ -43,10 +36,14 @@ final_sf <- et_counties_clean %>%
                names_to = "var",
                values_to = "values")
 
-color_df <- data.frame(var = c("mm_year", 'et_mm_year', 'ag_et_mm_year', 
-                         'pred_et_mm_year', 'irrigation_efficiency'),
-                       palette = c('Reds', 'Oranges', 'Yellows', 'Greens', 'Blues'))
 
+### setting up colors for map on overview tab
+
+color_list <- list(mm_year = c("red", 'orange', 'yellow'),
+                   et_mm_year = c('green', 'blue', 'purple'),
+                   ag_et_mm_year = c('cyan', 'blue', 'purple'),
+                   pred_et_mm_year = c('purple', 'pink', 'red'),
+                   irrigation_efficiency = c('cyan', 'blue', 'midnightblue'))
 
 
 ### creating regions and region column
@@ -144,10 +141,10 @@ server <- function(input, output){
       filter(var == input$pick_variable_map)
   })
 
-  var_color <- reactive({
-    color_df %>% 
-      filter(var == input$pick_variable_map)
-  })
+  # var_color <- reactive({
+  #   color_list %>% 
+  #     pluck(input$pick_variable_map)
+  # })
   
   
   output$ca_map <- renderPlot({
@@ -156,8 +153,8 @@ server <- function(input, output){
     ggplot() + 
       geom_sf(data = map_fill(), aes(fill = values, geometry = geometry),
               color = 'black', size = 0.1) +
-      scale_fill_gradientn(colors = var_color()$palette) +
       theme_void()
+      # scale_fill_gradient2(colors = 'red') +
   })
   
   output$penguin_table <- renderTable({
