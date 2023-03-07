@@ -17,6 +17,10 @@ et_counties_clean <- et_counties %>%
   select(name, mm_year, et_mm_year, ag_et_mm_year, 
          pred_et_mm_year, irrigation_efficiency, lon, lat)
 
+### Crop type data from Anna
+et_crops <- read_csv(here("data", "bardata.csv"))
+
+
 ### CA counties shapefile
 ca_counties_sf <- read_sf(here("data/ca_counties/CA_Counties_TIGER2016.shp")) %>% 
   clean_names()
