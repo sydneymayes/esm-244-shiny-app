@@ -191,6 +191,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
 ### Create the server function
 server <- function(input, output){
   
+### Tab 1 (Rachel)
   
   map_fill <- reactive({
     final_sf %>%
@@ -213,18 +214,26 @@ server <- function(input, output){
       # scale_fill_gradient2(colors = 'red') +
   })
   
-  output$penguin_table <- renderTable({
-    penguin_table()
-    
-    
-  })
+### Tab 2 ()
   
-  output$irrigation_image <- renderImage({
-    
-    list(src = "irrigation_efficiency_image.png",
-         width = "100%",
-         height = 330) }, deleteFile = FALSE)
-}
+  
+  
+
+  
+  
+  
+  
+### Tab 3 ()
+
+  
+  
+  
+  
+  
+  
+  
+  
+} ### end of server function
 
 ### Combine these into an app
 shinyApp(ui = ui, server = server)
