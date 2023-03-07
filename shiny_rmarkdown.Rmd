@@ -24,6 +24,14 @@ counties <- read_csv(here("data", "counties_irrigation.csv"))
 ```{r Ashley Cooper}
 ### Ashley codes here
 
+### Graphics for Landing Page
+
+county_et_plot <- ggplot(data = et_counties_clean_dropna,
+                      aes(x = name, y = et_mm_year)) +
+  geom_histogram(aes(fill = name), color = "darkslategray", binwidth = 1, show.legend = FALSE) +
+  scale_color_viridis_b() +
+  labs(title = "", x = "County", y = "Average Annual Evapotranspiration (mm)") +
+  theme_bw()
 
 ```
 
