@@ -17,9 +17,27 @@ et_counties_clean <- et_counties %>%
   select(name, mm_year, et_mm_year, ag_et_mm_year, 
          pred_et_mm_year, irrigation_efficiency, lon, lat)
 
-### Crop type data from Anna
+### Crop type data from Anna (### THIS IS SPACE FOR SYD TO CODE ###)
 et_crops <- read_csv(here("data", "bardata.csv"))
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### End of Syd's section!
 
 ### CA counties shapefile
 ca_counties_sf <- read_sf(here("data/ca_counties/CA_Counties_TIGER2016.shp")) %>% 
@@ -49,6 +67,27 @@ color_list <- list(mm_year = c("red", 'orange', 'yellow'),
                    pred_et_mm_year = c('purple', 'pink', 'red'),
                    irrigation_efficiency = c('cyan', 'blue', 'midnightblue'))
 
+### (### THIS IS SPACE FOR RACHEL TO CODE ###)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### End of Rachel's section!
 
 ### creating regions and region column
 cv = c('Butte', 'Colusa', 'Fresno', 'Glenn', 'Kern', 'Kings', 'Madera', 'Merced', 'Placer', 'San Joaquin', 'Sacramento', 'Shasta', 'Solano', 'Stanislaus', 'Sutter', 'Tehama', 'Tulare', 'Yolo', 'Yuba')
@@ -60,14 +99,27 @@ et_counties_mod <- et_counties_clean %>%
                             name %in% nc ~ "Northern California",
                             name %in% sc ~ "Southern California"))
 
-### Graphics for Landing Page
+### (### THIS IS SPACE FOR ASHLEY TO CODE ###)
 
-# county_et_plot <- ggplot(data = et_counties_clean_dropna,
-#                       aes(x = name, y = et_mm_year)) +
-#   geom_histogram(aes(fill = name), color = "darkslategray", binwidth = 1, show.legend = FALSE) +
-#   scale_color_viridis_b() +
-#   labs(title = "", x = "County", y = "Average Annual Evapotranspiration (mm)") +
-#   theme_bw()
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+### End of Ashley's section!
 
 ### Create the user interface (shiny uses camelCase)
 ui <- fluidPage(theme = shinytheme('sandstone'),
