@@ -188,8 +188,8 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                     
                       selectInput(inputId = 'pick_et',
                                   label = 'Select Variable:',
-                                  choices = c( "Agricultural ET (cm/yr)" = "ag_et_mm_year", 
-                                              "Simulated Natural ET (cm/yr)" = "pred_et_mm_year")
+                                  choices = c( "Agricultural ET (cm/yr)" = "ag_ET", 
+                                              "Simulated Natural ET (cm/yr)" = "ET_pred")
                       ), # end selectInput,
                       
                       # Not sure how to make all options visible; they currently disappear under the title
@@ -270,22 +270,21 @@ server <- function(input, output){
   output$crop_graph <- renderPlot({
     
     scalar = 1.2
-    ggplot(data = crop_fill(), aes(fill = ET))
+    ggplot(data = crop_fill(), aes(aes(x = reorder(cropnames, ET))) + 
+      geom_col(data = crop_fill(), aes(y = ET*scalar, fill = type), alpha = .6) +
+      scale_fill_manual(values=c(ag_ET="seagreen", ET_pred="goldenrod4"), breaks=c("ag_ET","ET_pred"), labels = c("Agricultural ET", "Simulated natural ET")) +
+      ylab("cm/year") + 
+      theme_classic() + 
+      labs(fill='') + 
+      theme(axis.text.x = element_text(angle = 30, hjust=1), 
+            axis.title.x=element_blank(), 
+            axis.ticks.x=element_blank(), 
+            legend.position = "top", 
+            legend.direction="horizontal", 
+            legend.title=element_blank()))
       
                         
-      # breaks=c("ag_ET","ET_pred"), labels = c("Agricultural ET", "Simulated natural ET")) +
-      # ylab("cm/year") + 
-      # theme_classic() + 
-      # labs(fill='') + 
-      # theme(axis.text.x = element_text(angle = 30, hjust=1), 
-      #       axis.title.x=element_blank(), 
-      #       axis.ticks.x=element_blank(), 
-      #       legend.position = "top", 
-      #       legend.direction="horizontal", 
-      #       legend.title=element_blank())
-      # 
-    
-    
+  
   })
 
   
