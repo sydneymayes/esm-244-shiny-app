@@ -188,7 +188,12 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                       ), # end tabPanel 'Counties'
              
              
-             tabPanel("Crop Data", ### ! WE DON'T HAVE THIS DATA YET !
+             tabPanel("ET by Crop Type",
+                      selectInput(inputId = 'pick_variable',
+                                  label = 'Select Variable:',
+                                  choices = c( "Agricultural ET (cm/yr)" = "ag_et_mm_year", 
+                                              "Simulated Natural ET (cm/yr)" = "pred_et_mm_year")
+                      ), # end selectInput,
                       selectInput(inputId = 'pick_crop',
                                   label = 'Choose crop type:',
                                   choices = unique(et_counties_mod$crop) ### make sure to update once we get real data here
