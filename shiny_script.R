@@ -19,8 +19,8 @@ et_counties_clean <- et_counties %>%
          pred_et_mm_year, irrigation_efficiency, lon, lat)
 
 ### Crop type data from Anna (### THIS IS SPACE FOR SYD TO CODE ###)
-et_crops <- read_csv(here("data", "bardata.csv")) 
-et_crops_no_observed <- et_crops %>% 
+et_crops <- read_csv(here("data", "bardata.csv"))
+et_crops_no_observed <- et_crops %>%
   filter(type != 'ET')
 
 
@@ -252,7 +252,26 @@ server <- function(input, output){
 ### Tab 2 ()
   
   
+  counties_plot_fill <- reactive({
+    final_sf %>%
+      filter(name == input$select_county, var == input$pick_variable)
+  })
   
+  
+  # title <- reactive({
+  #   sprintf("Name, Variable: ",
+  #           input$name,
+  #           input$var)
+  # })
+  
+  counties_plot <- renderPlot({
+    ggplot(data = counties_plot_fill,
+           aes(x = name, y = values)) +
+      geom_bar() +
+      #      scale_color_manual(values = ) +
+      labs(x = "County", y = "{Reactive Variable}") +
+      theme_bw()
+  })
 
   
   
