@@ -20,6 +20,9 @@ et_counties_clean <- et_counties %>%
 ### Crop type data from Anna (### THIS IS SPACE FOR SYD TO CODE ###)
 et_crops <- read_csv(here("data", "bardata.csv")) 
 
+# Creating crop types to choose from 
+
+
 
 
 
