@@ -7,6 +7,7 @@ library(janitor)
 library(sf)
 library(tmap)
 library(shinyWidgets)
+library(stats)
 
 ### CA counties data set from Anna, we'll need to use one with crop type when we're ready
 et_counties <- read_csv(here("data","counties_irrigation.csv"))
@@ -18,8 +19,8 @@ et_counties_clean <- et_counties %>%
          pred_et_mm_year, irrigation_efficiency, lon, lat)
 
 ### Crop type data from Anna (### THIS IS SPACE FOR SYD TO CODE ###)
-et_crops <- read_csv(here("data", "bardata.csv")) 
-et_crops_no_observed <- et_crops %>% 
+et_crops <- read_csv(here("data", "bardata.csv"))
+et_crops_no_observed <- et_crops %>%
   filter(type != 'ET')
 
 
@@ -187,8 +188,8 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                     
                       selectInput(inputId = 'pick_et',
                                   label = 'Select Variable:',
-                                  choices = c( "Agricultural ET (cm/yr)" = "ag_et_mm_year", 
-                                              "Simulated Natural ET (cm/yr)" = "pred_et_mm_year")
+                                  choices = c( "Agricultural ET (cm/yr)" = "ag_ET", 
+                                              "Simulated Natural ET (cm/yr)" = "ET_pred")
                       ), # end selectInput,
                       
                       # Not sure how to make all options visible; they currently disappear under the title
@@ -212,6 +213,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                       
                       mainPanel("Put my graph here!",
                                 plotOutput(outputId = 'crop_graph'),
+                                
                           
                       ) ### end mainPanel
                       
@@ -259,7 +261,26 @@ server <- function(input, output){
 ### Tab 2 ()
   
   
+  counties_plot_fill <- reactive({
+    final_sf %>%
+      filter(name == input$select_county, var == input$pick_variable)
+  })
   
+  
+  # title <- reactive({
+  #   sprintf("Name, Variable: ",
+  #           input$name,
+  #           input$var)
+  # })
+  
+  counties_plot <- renderPlot({
+    ggplot(data = counties_plot_fill,
+           aes(x = name, y = values)) +
+      geom_bar() +
+      #      scale_color_manual(values = ) +
+      labs(x = "County", y = "{Reactive Variable}") +
+      theme_bw()
+  })
 
   
   
@@ -277,8 +298,8 @@ server <- function(input, output){
   output$crop_graph <- renderPlot({
     
     scalar = 1.2
-    ggplot(filter(et_crops_no_observed, type == "ag_ET"), aes(x = reorder(cropnames, ET))) + 
-      geom_col(data = filter(et_crops_no_observed, type == "ag_ET"), aes(y = ET*scalar, fill = type), alpha = .6) +
+    ggplot(data = crop_fill(), aes(aes(x = reorder(cropnames, ET))) + 
+      geom_col(data = crop_fill(), aes(y = ET*scalar, fill = type), alpha = .6) +
       scale_fill_manual(values=c(ag_ET="seagreen", ET_pred="goldenrod4"), breaks=c("ag_ET","ET_pred"), labels = c("Agricultural ET", "Simulated natural ET")) +
       ylab("cm/year") + 
       theme_classic() + 
@@ -288,10 +309,10 @@ server <- function(input, output){
             axis.ticks.x=element_blank(), 
             legend.position = "top", 
             legend.direction="horizontal", 
-            legend.title=element_blank())
-    
-    
-    
+            legend.title=element_blank()))
+      
+                        
+  
   })
 
   
