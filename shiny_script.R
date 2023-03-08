@@ -18,7 +18,7 @@ et_counties_clean <- et_counties %>%
          pred_et_mm_year, irrigation_efficiency, lon, lat)
 
 ### Crop type data from Anna (### THIS IS SPACE FOR SYD TO CODE ###)
-et_crops <- read_csv(here("data", "bardata.csv"))
+et_crops <- read_csv(here("data", "bardata.csv")) 
 
 
 
@@ -188,7 +188,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                       ), # end tabPanel 'Counties'
              
              
-             tabPanel("Crop Type", ### ! WE DON'T HAVE THIS DATA YET !
+             tabPanel("Crop Data", ### ! WE DON'T HAVE THIS DATA YET !
                       selectInput(inputId = 'pick_crop',
                                   label = 'Choose crop type:',
                                   choices = unique(et_counties_mod$crop) ### make sure to update once we get real data here
