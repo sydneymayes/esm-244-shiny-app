@@ -59,7 +59,8 @@ county_et_plot <- ggplot(data = et_counties_clean_dropna,
 county_plot_fill <- reactive({
     final_sf %>%
       filter(name == input$select_county, var == input$pick_variable)
-
+})
+  
 county_plot <- ggplot(data = county_plot_fill,
        aes(x = name, y = values)) +
   geom_jitter(aes(color = name), width = 0.2, size = 0.5, show.legend = FALSE) +
