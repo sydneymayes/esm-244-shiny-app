@@ -159,6 +159,33 @@ vineyard_crop <- filter(et_crops, cropnames == "Vineyards", type != 'ET')
 perrenial_crop <- filter(et_crops, cropnames == "Young Perennial", type != 'ET')
 
 
+Server coding:
+  crop_fill <- reactive({
+    et_crops_no_observed %>%
+      filter(type == input$pick_et)
+  })
+  
+  
+  
+  output$crop_graph <- renderPlot({
+    
+    scalar = 1.2
+    ggplot(filter(et_crops_no_observed, type == "ag_ET"), aes(x = reorder(cropnames, ET))) + 
+      geom_col(data = filter(et_crops_no_observed, type == "ag_ET"), aes(y = ET*scalar, fill = type), alpha = .6) +
+      scale_fill_manual(values=c(ag_ET="seagreen", ET_pred="goldenrod4"), breaks=c("ag_ET","ET_pred"), labels = c("Agricultural ET", "Simulated natural ET")) +
+      ylab("cm/year") + 
+      theme_classic() + 
+      labs(fill='') + 
+      theme(axis.text.x = element_text(angle = 30, hjust=1), 
+            axis.title.x=element_blank(), 
+            axis.ticks.x=element_blank(), 
+            legend.position = "top", 
+            legend.direction="horizontal", 
+            legend.title=element_blank())
+    
+    
+    
+  })
 
 ```
 
