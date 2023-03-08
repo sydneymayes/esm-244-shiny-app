@@ -231,11 +231,20 @@ server <- function(input, output){
       filter(var == input$pick_variable_map)
   })
 
-  # var_color <- reactive({
-  #   color_list %>% 
-  #     pluck(input$pick_variable_map)
-  # })
+  var_color <- reactive({
+    color_list %>%
+      pluck(input$pick_variable_map)
+  })
   
+  ### make a table similar to color_list for the legend title
+  # legend_name <- reactive({
+  #   c("Irrigation (mm/yr)" = "mm_year", 
+  #     "Total ET (mm/yr)" = "et_mm_year", 
+  #     "Agricultural ET (mm/yr)" = "ag_et_mm_year", 
+  #     "Simulated Natural ET (mm/yr)" = "pred_et_mm_year", 
+  #     "Irrigation Efficiency" = "irrigation_efficiency")
+    
+  # })
   
   output$ca_map <- renderPlot({
     
@@ -243,8 +252,8 @@ server <- function(input, output){
     ggplot() + 
       geom_sf(data = map_fill(), aes(fill = values, geometry = geometry),
               color = 'black', size = 0.1) +
-      theme_void()
-      # scale_fill_gradient2(colors = 'red') +
+      theme_void() +
+      scale_fill_gradientn(colors = var_color(), na.value = "white")
   })
   
 ### Tab 2 ()
