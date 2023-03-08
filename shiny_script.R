@@ -29,14 +29,6 @@ et_crops <- read_csv(here("data", "bardata.csv"))
 
 
 
-
-
-
-
-
-
-
-
 ### End of Syd's section!
 
 ### CA counties shapefile
@@ -124,6 +116,16 @@ et_counties_mod <- et_counties_clean %>%
 ### Create the user interface (shiny uses camelCase)
 ui <- fluidPage(theme = shinytheme('sandstone'),
   navbarPage("Irrigation Efficiency and Crop Type",
+             
+             fluidRow(
+               h3("Background"
+                 ) ### end of h2
+                     ), ### end of fluidRow 
+             fluidRow(
+               "My second row"
+             ), ### end of fluidRow
+             
+
              tabPanel("Overview",
                       sidebarLayout(
                         sidebarPanel(
@@ -132,7 +134,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                        choices = c("Irrigation (mm/yr)" = "mm_year", 
                                                    "Total ET (mm/yr)" = "et_mm_year", 
                                                    "Agricultural ET (mm/yr)" = "ag_et_mm_year", 
-                                                   "Natural ET (mm/yr)" = "pred_et_mm_year", 
+                                                   "Simulated Natural ET (mm/yr)" = "pred_et_mm_year", 
                                                    "Irrigation Efficiency" = "irrigation_efficiency")
                                        ) # end of radioButtons
                                      ), # End of Overview sidebarPanel
@@ -178,11 +180,40 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                       ), # end tabPanel 'Counties'
              
              
-             tabPanel("Crop Data", ### ! WE DON'T HAVE THIS DATA YET !
+             tabPanel("ET by Crop Type",
+                      sidebarPanel(
+                    
+                      selectInput(inputId = 'pick_variable',
+                                  label = 'Select Variable:',
+                                  choices = c( "Agricultural ET (cm/yr)" = "ag_et_mm_year", 
+                                              "Simulated Natural ET (cm/yr)" = "pred_et_mm_year")
+                      ), # end selectInput,
+                      
+                      # Not sure how to make all options visible; they currently disappear under the title
+                      virtualSelectInput(inputId = "select_crop",
+                                         label = "Select Crops",
+                                         choices = unique(et_crops$cropnames),
+                                         showValueAsTags = TRUE,
+                                         search = TRUE,
+                                         multiple = TRUE
+                                  
+                      ),
+                      
+  
+                      
+                      # probably will delete, but this one has better UI
                       selectInput(inputId = 'pick_crop',
                                   label = 'Choose crop type:',
-                                  choices = unique(et_counties_mod$crop) ### make sure to update once we get real data here
-                                  ) # end of crop type selectInput
+                                  choices = unique(et_crops$cropnames) ### make sure to update once we get real data here
+                                  ), # end of crop type selectInput
+                      ), #end sidebarPanel
+                      
+                      mainPanel("Put my graph here!",
+                                plotOutput(outputId = 'counties_plot'),
+                                tableOutput(outputId = 'counties_table')
+                      ) ### end mainPanel
+                      
+                      
                      ), #end crop type tabPanel
              ) #end navbarPage
 ) # end of fluidPage
