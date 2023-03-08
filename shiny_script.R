@@ -20,15 +20,6 @@ et_counties_clean <- et_counties %>%
 ### Crop type data from Anna (### THIS IS SPACE FOR SYD TO CODE ###)
 et_crops <- read_csv(here("data", "bardata.csv")) 
 
-# Creating crop types to choose from 
-crop_types <- c('Citrus and subtropical', 'Deciduous fruits and nuts', 'Fallow', 
-                'Field crops', 'Grain and hay crops', 'Pasture', 'Rice', 
-                'Truck, nursery, and berry crops', 'Vineyards', 'Young Perennial')
-
-
-
-
-
 
 
 
@@ -190,6 +181,8 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
              
              
              tabPanel("ET by Crop Type",
+                      
+                    
                       selectInput(inputId = 'pick_variable',
                                   label = 'Select Variable:',
                                   choices = c( "Agricultural ET (cm/yr)" = "ag_et_mm_year", 
@@ -199,19 +192,19 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                       # Not sure how to make all options visible
                       virtualSelectInput(inputId = "select_crop",
                                          label = "Select Crops",
-                                         choices = crop_types,
+                                         choices = unique(et_crops$cropnames),
                                          showValueAsTags = TRUE,
                                          search = TRUE,
                                          multiple = TRUE
                                   
                       ),
                       
+  
                       
-                      
-                      # probably will delete
+                      # probably will delete, but this one has better UI
                       selectInput(inputId = 'pick_crop',
                                   label = 'Choose crop type:',
-                                  choices = unique(et_counties_mod$crop) ### make sure to update once we get real data here
+                                  choices = unique(et_crops$cropnames) ### make sure to update once we get real data here
                                   ) # end of crop type selectInput
                      ), #end crop type tabPanel
              ) #end navbarPage
