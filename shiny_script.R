@@ -19,6 +19,8 @@ et_counties_clean <- et_counties %>%
 
 ### Crop type data from Anna (### THIS IS SPACE FOR SYD TO CODE ###)
 et_crops <- read_csv(here("data", "bardata.csv")) 
+et_crops_no_observed <- et_crops %>% 
+  filter(type != 'ET')
 
 
 
@@ -183,7 +185,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
              tabPanel("ET by Crop Type",
                       sidebarPanel(
                     
-                      selectInput(inputId = 'pick_variable',
+                      selectInput(inputId = 'pick_et',
                                   label = 'Select Variable:',
                                   choices = c( "Agricultural ET (cm/yr)" = "ag_et_mm_year", 
                                               "Simulated Natural ET (cm/yr)" = "pred_et_mm_year")
@@ -209,8 +211,8 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                       ), #end sidebarPanel
                       
                       mainPanel("Put my graph here!",
-                                plotOutput(outputId = 'counties_plot'),
-                                tableOutput(outputId = 'counties_table')
+                                plotOutput(outputId = 'crop_graph'),
+                          
                       ) ### end mainPanel
                       
                       
@@ -255,6 +257,33 @@ server <- function(input, output){
   
   
 ### Tab 3 ()
+  
+  crop_fill <- reactive({
+    et_crops_no_observed %>%
+      filter(type == input$pick_et)
+  })
+  
+  
+  
+  output$crop_graph <- renderPlot({
+    
+    scalar = 1.2
+    ggplot(filter(et_crops_no_observed, type == "ag_ET"), aes(x = reorder(cropnames, ET))) + 
+      geom_col(data = filter(et_crops_no_observed, type == "ag_ET"), aes(y = ET*scalar, fill = type), alpha = .6) +
+      scale_fill_manual(values=c(ag_ET="seagreen", ET_pred="goldenrod4"), breaks=c("ag_ET","ET_pred"), labels = c("Agricultural ET", "Simulated natural ET")) +
+      ylab("cm/year") + 
+      theme_classic() + 
+      labs(fill='') + 
+      theme(axis.text.x = element_text(angle = 30, hjust=1), 
+            axis.title.x=element_blank(), 
+            axis.ticks.x=element_blank(), 
+            legend.position = "top", 
+            legend.direction="horizontal", 
+            legend.title=element_blank())
+    
+    
+    
+  })
 
   
   
