@@ -181,7 +181,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
              
              
              tabPanel("ET by Crop Type",
-                      
+                      sidebarPanel(
                     
                       selectInput(inputId = 'pick_variable',
                                   label = 'Select Variable:',
@@ -189,7 +189,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                               "Simulated Natural ET (cm/yr)" = "pred_et_mm_year")
                       ), # end selectInput,
                       
-                      # Not sure how to make all options visible
+                      # Not sure how to make all options visible; they currently disappear under the title
                       virtualSelectInput(inputId = "select_crop",
                                          label = "Select Crops",
                                          choices = unique(et_crops$cropnames),
@@ -205,7 +205,15 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                       selectInput(inputId = 'pick_crop',
                                   label = 'Choose crop type:',
                                   choices = unique(et_crops$cropnames) ### make sure to update once we get real data here
-                                  ) # end of crop type selectInput
+                                  ), # end of crop type selectInput
+                      ), #end sidebarPanel
+                      
+                      mainPanel("Put my graph here!",
+                                plotOutput(outputId = 'counties_plot'),
+                                tableOutput(outputId = 'counties_table')
+                      ) ### end mainPanel
+                      
+                      
                      ), #end crop type tabPanel
              ) #end navbarPage
 ) # end of fluidPage
