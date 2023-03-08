@@ -7,6 +7,7 @@ library(janitor)
 library(sf)
 library(tmap)
 library(shinyWidgets)
+library(stats)
 
 ### CA counties data set from Anna, we'll need to use one with crop type when we're ready
 et_counties <- read_csv(here("data","counties_irrigation.csv"))
@@ -212,6 +213,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                       
                       mainPanel("Put my graph here!",
                                 plotOutput(outputId = 'crop_graph'),
+                                
                           
                       ) ### end mainPanel
                       
@@ -268,19 +270,20 @@ server <- function(input, output){
   output$crop_graph <- renderPlot({
     
     scalar = 1.2
-    ggplot(filter(et_crops_no_observed, type == "ag_ET"), aes(x = reorder(cropnames, ET))) + 
-      geom_col(data = filter(et_crops_no_observed, type == "ag_ET"), aes(y = ET*scalar, fill = type), alpha = .6) +
-      scale_fill_manual(values=c(ag_ET="seagreen", ET_pred="goldenrod4"), breaks=c("ag_ET","ET_pred"), labels = c("Agricultural ET", "Simulated natural ET")) +
-      ylab("cm/year") + 
-      theme_classic() + 
-      labs(fill='') + 
-      theme(axis.text.x = element_text(angle = 30, hjust=1), 
-            axis.title.x=element_blank(), 
-            axis.ticks.x=element_blank(), 
-            legend.position = "top", 
-            legend.direction="horizontal", 
-            legend.title=element_blank())
-    
+    ggplot(data = crop_fill(), aes(fill = ET))
+      
+                        
+      # breaks=c("ag_ET","ET_pred"), labels = c("Agricultural ET", "Simulated natural ET")) +
+      # ylab("cm/year") + 
+      # theme_classic() + 
+      # labs(fill='') + 
+      # theme(axis.text.x = element_text(angle = 30, hjust=1), 
+      #       axis.title.x=element_blank(), 
+      #       axis.ticks.x=element_blank(), 
+      #       legend.position = "top", 
+      #       legend.direction="horizontal", 
+      #       legend.title=element_blank())
+      # 
     
     
   })
