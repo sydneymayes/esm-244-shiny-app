@@ -33,6 +33,41 @@ county_et_plot <- ggplot(data = et_counties_clean_dropna,
   labs(title = "", x = "County", y = "Average Annual Evapotranspiration (mm)") +
   theme_bw()
 
+
+  # map_fill <- reactive({
+  #   final_sf %>%
+  #     filter(var == input$pick_variable_map)
+  # })
+  # 
+  # # var_color <- reactive({
+  # #   color_list %>% 
+  # #     pluck(input$pick_variable_map)
+  # # })
+  # 
+  # 
+  # output$ca_map <- renderPlot({
+  #   
+  # 
+  #   ggplot() + 
+  #     geom_sf(data = map_fill(), aes(fill = values, geometry = geometry),
+  #             color = 'black', size = 0.1) +
+  #     theme_void()
+  #     # scale_fill_gradient2(colors = 'red') +
+  # })
+
+### Coding my actual code
+county_plot_fill <- reactive({
+    final_sf %>%
+      filter(name == input$select_county, var == input$pick_variable)
+
+county_plot <- ggplot(data = county_plot_fill,
+       aes(x = name, y = values)) +
+  geom_jitter(aes(color = name), width = 0.2, size = 0.5, show.legend = FALSE) +
+  geom_boxplot(fill = NA, outlier.shape = NA) +
+  scale_color_manual(values = var_color) +
+  labs(title = "C", x = "Species", y = "Height (cm)") +
+  theme_bw()
+
 ```
 
 
