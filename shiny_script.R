@@ -21,11 +21,9 @@ et_counties_clean <- et_counties %>%
 et_crops <- read_csv(here("data", "bardata.csv")) 
 
 # Creating crop types to choose from 
-
-
-
-
-
+crop_types <- c('Citrus and subtropical', 'Deciduous fruits and nuts', 'Fallow', 
+                'Field crops', 'Grain and hay crops', 'Pasture', 'Rice', 
+                'Truck, nursery, and berry crops', 'Vineyards', 'Young Perennial')
 
 
 
@@ -197,6 +195,20 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                   choices = c( "Agricultural ET (cm/yr)" = "ag_et_mm_year", 
                                               "Simulated Natural ET (cm/yr)" = "pred_et_mm_year")
                       ), # end selectInput,
+                      
+                      # Not sure how to make all options visible
+                      virtualSelectInput(inputId = "select_crop",
+                                         label = "Select Crops",
+                                         choices = crop_types,
+                                         showValueAsTags = TRUE,
+                                         search = TRUE,
+                                         multiple = TRUE
+                                  
+                      ),
+                      
+                      
+                      
+                      # probably will delete
                       selectInput(inputId = 'pick_crop',
                                   label = 'Choose crop type:',
                                   choices = unique(et_counties_mod$crop) ### make sure to update once we get real data here

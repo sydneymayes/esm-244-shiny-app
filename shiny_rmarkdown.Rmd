@@ -74,6 +74,7 @@ county_plot <- ggplot(data = county_plot_fill,
 
 ```{r Sydney Mayes}
 ### Sydney codes here
+et_crops <- read_csv(here("data", "bardata.csv")) 
 
 # Anna's original code
 scalar = 1.2 # turns mm/month to cm/year
@@ -144,6 +145,20 @@ ggplot(filter(et_crops, type == "ag_ET"), aes(x = reorder(cropnames, ET))) +
         legend.position = "top", 
         legend.direction="horizontal", 
         legend.title=element_blank())
+
+# crop types:
+citrus_crop <- filter(et_crops, cropnames == "Citrus and subtropical", type != 'ET')
+deciduous_crop <- filter(et_crops, cropnames == "Deciduous fruits and nuts", type != 'ET')
+fallow_crop <- filter(et_crops, cropnames == "Fallow", type != 'ET')
+field_crop <- filter(et_crops, cropnames == "Field crops", type != 'ET')
+grain_crop <- filter(et_crops, cropnames == "Grain and hay crops", type != 'ET')
+pasture_crop <- filter(et_crops, cropnames == "Pasture", type != 'ET')
+rice_crop <- filter(et_crops, cropnames == "Rice", type != 'ET')
+truck_crop <- filter(et_crops, cropnames == "Truck, nursery, and berry crops", type != 'ET')
+vineyard_crop <- filter(et_crops, cropnames == "Vineyards", type != 'ET')
+perrenial_crop <- filter(et_crops, cropnames == "Young Perennial", type != 'ET')
+
+
 
 ```
 
