@@ -39,6 +39,8 @@ county_et_plot <- ggplot(data = et_counties_clean_dropna,
 ```{r Sydney Mayes}
 ### Sydney codes here
 
+scalar = 1.2 # turns mm/month to cm/year
+
 ggplot(filter(et_crops, type == "ag_ET"), aes(x = reorder(cropnames, ET))) + 
   geom_linerange(data = filter(et_crops, type == "ag_ET"), aes(ymax = min*scalar, ymin = max*scalar), color = "seagreen") + 
   geom_col(data = filter(et_crops, type != "ET"), aes(y = ET*scalar, fill = type), alpha = .6) +
