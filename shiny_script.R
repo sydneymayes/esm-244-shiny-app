@@ -124,6 +124,16 @@ et_counties_mod <- et_counties_clean %>%
 ### Create the user interface (shiny uses camelCase)
 ui <- fluidPage(theme = shinytheme('sandstone'),
   navbarPage("Irrigation Efficiency and Crop Type",
+             
+             fluidRow(
+               h3("Background"
+                 ) ### end of h2
+                     ), ### end of fluidRow 
+             fluidRow(
+               "My second row"
+             ), ### end of fluidRow
+             
+
              tabPanel("Overview",
                       sidebarLayout(
                         sidebarPanel(
@@ -132,7 +142,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                        choices = c("Irrigation (mm/yr)" = "mm_year", 
                                                    "Total ET (mm/yr)" = "et_mm_year", 
                                                    "Agricultural ET (mm/yr)" = "ag_et_mm_year", 
-                                                   "Natural ET (mm/yr)" = "pred_et_mm_year", 
+                                                   "Simulated Natural ET (mm/yr)" = "pred_et_mm_year", 
                                                    "Irrigation Efficiency" = "irrigation_efficiency")
                                        ) # end of radioButtons
                                      ), # End of Overview sidebarPanel
