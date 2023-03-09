@@ -195,10 +195,13 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
              tabPanel("ET by Crop Type",
                       sidebarPanel(
                     
-                      selectInput(inputId = 'pick_et',
+                      virtualSelectInput(inputId = 'pick_et',
                                   label = 'Select Variable:',
                                   choices = c( "Agricultural ET (cm/yr)" = "ag_ET", 
-                                              "Simulated Natural ET (cm/yr)" = "ET_pred")
+                                              "Simulated Natural ET (cm/yr)" = "ET_pred"),
+                                  showValueAsTags = TRUE,
+                                  search = TRUE,
+                                  multiple = TRUE
                                   ), # end selectInput,
                       
                       # Not sure how to make all options visible; they currently disappear under the title

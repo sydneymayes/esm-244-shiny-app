@@ -159,7 +159,7 @@ vineyard_crop <- filter(et_crops, cropnames == "Vineyards", type != 'ET')
 perrenial_crop <- filter(et_crops, cropnames == "Young Perennial", type != 'ET')
 
 
-Server coding:
+# Server coding:
   crop_fill <- reactive({
     et_crops_no_observed %>%
       filter(type == input$pick_et)
