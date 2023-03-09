@@ -8,6 +8,7 @@ library(sf)
 library(tmap)
 library(shinyWidgets)
 library(stats)
+library(RColorBrewer)
 
 ### CA counties data set from Anna, we'll need to use one with crop type when we're ready
 et_counties <- read_csv(here("data","counties_irrigation.csv"))
@@ -54,13 +55,21 @@ final_sf <- et_counties_clean %>%
                values_to = "values")
 
 
-### setting up colors for map on overview tab
+### setting up colors and legend for map on overview tab
 
-color_list <- list(mm_year = c("red", 'orange', 'yellow'),
+color_list <- list(mm_year = c('red', 'orange', 'yellow'),
                    et_mm_year = c('green', 'blue', 'purple'),
                    ag_et_mm_year = c('cyan', 'blue', 'purple'),
                    pred_et_mm_year = c('purple', 'pink', 'red'),
                    irrigation_efficiency = c('cyan', 'blue', 'midnightblue'))
+
+# legend_list <- list(mm_year = c("Irrigation (mm/yr)"),
+#                     et_mm_year = c("Total ET (mm/yr)"),
+#                     ag_et_mm_year = c("Agricultural ET (mm/yr)"),
+#                     pred_et_mm_year = c("Simulated Natural ET (mm/yr)"),
+#                     irrigation_efficiency = c("Irrigation Efficiency"))
+# 
+# legend_list$value <- unlist(legend_list$value)
 
 ### (### THIS IS SPACE FOR RACHEL TO CODE ###)
 
@@ -238,15 +247,11 @@ server <- function(input, output){
       pluck(input$pick_variable_map)
   })
   
-  ### make a table similar to color_list for the legend title
-  # legend_name <- reactive({
-  #   c("Irrigation (mm/yr)" = "mm_year", 
-  #     "Total ET (mm/yr)" = "et_mm_year", 
-  #     "Agricultural ET (mm/yr)" = "ag_et_mm_year", 
-  #     "Simulated Natural ET (mm/yr)" = "pred_et_mm_year", 
-  #     "Irrigation Efficiency" = "irrigation_efficiency")
+  legend_name <- reactive ({
+    legend_list %>% 
+      pluck(input$pick_variable_map)
     
-  # })
+  })
   
   output$ca_map <- renderPlot({
     
@@ -256,9 +261,11 @@ server <- function(input, output){
               color = 'black', size = 0.1) +
       theme_void() +
       scale_fill_gradientn(colors = var_color(), na.value = "white")
+    
+    # labs(title = legend_name())
   })
   
-### Tab 2 ()
+### Tab 2 (Ashley)
   
   
   counties_plot_fill <- reactive({
@@ -286,7 +293,7 @@ server <- function(input, output){
   
   
   
-### Tab 3 ()
+### Tab 3 (Syd)
   
   crop_fill <- reactive({
     et_crops_no_observed %>%
