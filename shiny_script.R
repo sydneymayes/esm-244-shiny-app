@@ -199,7 +199,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                   label = 'Select Variable:',
                                   choices = c( "Agricultural ET (cm/yr)" = "ag_ET", 
                                               "Simulated Natural ET (cm/yr)" = "ET_pred")
-                      ), # end selectInput,
+                                  ), # end selectInput,
                       
                       # Not sure how to make all options visible; they currently disappear under the title
                       virtualSelectInput(inputId = "select_crop",
@@ -209,7 +209,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                          search = TRUE,
                                          multiple = TRUE
                                   
-                      ),
+                                         ),
                       
   
                       
@@ -218,13 +218,13 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                   label = 'Choose crop type:',
                                   choices = unique(et_crops$cropnames) ### make sure to update once we get real data here
                                   ), # end of crop type selectInput
-                      ), #end sidebarPanel
+                                  ), #end sidebarPanel
                       
                       mainPanel("Put my graph here!",
                                 plotOutput(outputId = 'crop_graph'),
                                 
                           
-                      ) ### end mainPanel
+                                ) ### end mainPanel
                       
                       
                      ), #end crop type tabPanel
