@@ -9,6 +9,7 @@ library(tmap)
 library(shinyWidgets)
 library(stats)
 library(RColorBrewer)
+library(plotly)
 
 ### CA counties data set from Anna, we'll need to use one with crop type when we're ready
 et_counties <- read_csv(here("data","counties_irrigation.csv"))
@@ -152,7 +153,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                      ), # End of Overview sidebarPanel
                         
                         mainPanel("Put my map here!",
-                                   plotOutput(outputId = 'ca_map')
+                                   plotlyOutput(outputId = 'ca_map')
                                   ) ### end mainPanel
                         
                                     ), #end of Overview sideBarLayout
@@ -262,7 +263,7 @@ server <- function(input, output){
     
   })
   
-  output$ca_map <- renderPlot({
+  output$ca_map <- renderPlotly({
     
   
     ggplot() + 
