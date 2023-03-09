@@ -64,6 +64,13 @@ color_list <- list(mm_year = c('red', 'orange', 'yellow'),
                    pred_et_mm_year = c('purple', 'pink', 'red'),
                    irrigation_efficiency = c('cyan', 'blue', 'midnightblue'))
 
+### trying this to change to Brewers, but having issues
+# color_list <- list(mm_year = c('YlOrRd'),
+#                    et_mm_year = c('YlGnBu'),
+#                    ag_et_mm_year = c('Reds'),
+#                    pred_et_mm_year = c('PuBuGn'),
+#                    irrigation_efficiency = c('BuGn'))
+
 # legend_list <- list(mm_year = c("Irrigation (mm/yr)"),
 #                     et_mm_year = c("Total ET (mm/yr)"),
 #                     ag_et_mm_year = c("Agricultural ET (mm/yr)"),
@@ -273,6 +280,8 @@ server <- function(input, output){
       scale_fill_gradientn(colors = var_color(), na.value = "white")
     
     # labs(title = legend_name())
+    #   scale_colour_brewer(palette = var_color(), na.value = 'white')
+      
   })
   
 ### Tab 2 (Ashley)
