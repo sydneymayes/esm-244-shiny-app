@@ -286,14 +286,14 @@ server <- function(input, output, session){
   
 ### Tab 2 (Ashley)
  
-  # input_select_county <- reactive({final_sf$name %>% 
-  #     filter(var %in% input$pick_variable, !is.na(values))
-  # })
-  # 
-  # observe({
-  #   updateVirtualSelect("select_county", label = "Select Counties", choices = input_select_county(),
-  #                       session = shiny::getDefaultReactiveDomain())
-  # })
+  input_select_county <- reactive({final_sf %>%
+      filter(var %in% input$pick_variable, !is.na(values))
+  })
+
+  observeEvent({
+    updateVirtualSelect("select_county", label = "Select Counties", choices = input_select_county$name(),
+                        session = shiny::getDefaultReactiveDomain())
+  })
   # 
   # output$IdDatatable <- renderTable(DATA)
   
