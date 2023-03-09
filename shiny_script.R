@@ -301,7 +301,7 @@ server <- function(input, output){
   
   crop_fill <- reactive({
     et_crops_no_observed %>%
-      filter(type == input$pick_et)
+      filter(type %in% input$pick_et, cropnames %in% input$select_crop)
   })
   
   
@@ -309,8 +309,8 @@ server <- function(input, output){
   output$crop_graph <- renderPlot({
     
     scalar = 1.2
-    ggplot(data = crop_fill(), aes(aes(x = reorder(cropnames, ET))) + 
-      geom_col(data = crop_fill(), aes(y = ET*scalar, fill = type), alpha = .6) +
+    ggplot() + 
+      geom_col(data = crop_fill(), aes(x = cropnames, y = ET*scalar, fill = type), alpha = .6) +
       scale_fill_manual(values=c(ag_ET="seagreen", ET_pred="goldenrod4"), breaks=c("ag_ET","ET_pred"), labels = c("Agricultural ET", "Simulated natural ET")) +
       ylab("cm/year") + 
       theme_classic() + 
@@ -320,7 +320,7 @@ server <- function(input, output){
             axis.ticks.x=element_blank(), 
             legend.position = "top", 
             legend.direction="horizontal", 
-            legend.title=element_blank()))
+            legend.title=element_blank())
       
                         
   
