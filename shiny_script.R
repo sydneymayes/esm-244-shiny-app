@@ -231,7 +231,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                   ), #end sidebarPanel
                       
                       mainPanel("Put my graph here!",
-                                plotOutput(outputId = 'crop_graph'),
+                                plotlyOutput(outputId = 'crop_graph'),
                                 
                           
                                 ) ### end mainPanel
@@ -316,7 +316,7 @@ server <- function(input, output){
   
   
   
-  output$crop_graph <- renderPlot({
+  output$crop_graph <- renderPlotly({
     
     scalar = 1.2
     ggplot() + 
