@@ -320,7 +320,7 @@ server <- function(input, output){
     
     scalar = 1.2
     ggplot() + 
-      geom_col(data = crop_fill(), aes(x = cropnames, y = ET*scalar, fill = type), alpha = .6) +
+      geom_col(data = crop_fill(), aes(x = cropnames, y = ET*scalar, text = paste("ET:", ET*scalar), fill = type), alpha = .6) +
       scale_fill_manual(values=c(ag_ET="seagreen", ET_pred="goldenrod4"), breaks=c("ag_ET","ET_pred"), labels = c("Agricultural ET", "Simulated natural ET")) +
       ylab("cm/year") + 
       theme_classic() + 
@@ -331,6 +331,14 @@ server <- function(input, output){
             legend.position = "top", 
             legend.direction="horizontal", 
             legend.title=element_blank())
+    
+  
+    
+   
+    
+   
+    
+    
       
                         
   
