@@ -201,7 +201,8 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                               "Simulated Natural ET (cm/yr)" = "ET_pred"),
                                   showValueAsTags = TRUE,
                                   search = TRUE,
-                                  multiple = TRUE
+                                  multiple = TRUE, 
+                                  selected = c("ag_ET", "ET_pred")
                                   ), # end selectInput,
                       
                       # Not sure how to make all options visible; they currently disappear under the title
@@ -222,7 +223,9 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                         inputId = "select_crop",
                         label = "Select Crop Types", 
                         choices = unique(et_crops$cropnames),
-                        selected = "Fallow"
+                        selected = c("Fallow", "Citrus and subtropical", "Deciduous fruits and nuts",
+                                     "Field crops", "Grain and hay crops", "Pasture", "Rice", "Truck, nursery, and berry crops",
+                                     "Vineyards", "Young Perennial")
                       ), # end of crop type selectInput
                                   ), #end sidebarPanel
                       
