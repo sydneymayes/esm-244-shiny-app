@@ -205,22 +205,25 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                   ), # end selectInput,
                       
                       # Not sure how to make all options visible; they currently disappear under the title
-                      virtualSelectInput(inputId = "select_crop",
-                                         label = "Select Crops",
-                                         choices = unique(et_crops$cropnames),
-                                         showValueAsTags = TRUE,
-                                         search = TRUE,
-                                         multiple = TRUE
-                                  
-                                         ),
+                      # virtualSelectInput(inputId = "select_crop",
+                      #                    label = "Select Crops",
+                      #                    choices = unique(et_crops$cropnames),
+                      #                    showValueAsTags = TRUE,
+                      #                    search = TRUE,
+                      #                    multiple = TRUE
+                      #             
+                      #                    ),
                       
   
                       
-                      # probably will delete, but this one has better UI
-                      selectInput(inputId = 'pick_crop',
-                                  label = 'Choose crop type:',
-                                  choices = unique(et_crops$cropnames) ### make sure to update once we get real data here
-                                  ), # end of crop type selectInput
+                      # Checkbox instead!
+                      
+                      awesomeCheckboxGroup(
+                        inputId = "select_crop",
+                        label = "Select Crop Types", 
+                        choices = unique(et_crops$cropnames),
+                        selected = "Fallow"
+                      ), # end of crop type selectInput
                                   ), #end sidebarPanel
                       
                       mainPanel("Put my graph here!",
