@@ -175,8 +175,8 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                      ), #end sidebarPanel
                         
                         mainPanel("Put my graph here!",
-                                  plotOutput(outputId = 'counties_plot'),
-                                  tableOutput(outputId = 'counties_table')
+                                  plotOutput(outputId = 'counties_plot')#,
+                                  #tableOutput(outputId = 'counties_table')
                                  ) ### end mainPanel
                         
                                     ) # end sidebarLayout
@@ -263,7 +263,7 @@ server <- function(input, output){
   
   counties_plot_fill <- reactive({
     final_sf %>%
-      filter(name == input$select_county, var == input$pick_variable)
+      filter(name %in% input$select_county, var%in% input$pick_variable)
   })
   
   
@@ -272,14 +272,18 @@ server <- function(input, output){
   #           input$name,
   #           input$var)
   # })
-  
-  counties_plot <- renderPlot({
-    ggplot(data = counties_plot_fill,
-           aes(x = name, y = values)) +
-      geom_bar() +
-      #      scale_color_manual(values = ) +
+
+  output$counties_plot <- renderPlot({
+    
+    ggplot() +
+      geom_col(data = counties_plot_fill(), aes(x = name, y = values, fill = var), alpha = .6) +
+           scale_color_manual(values = c(mm_year = "blue3", et_mm_year = "sandybrown", ag_et_mm_year = "seagreen", pred_et_mm_year = "goldenrod4", 	
+                                         irrigation_efficiency = "deepskyblue3"),
+                              breaks=c("mm_year", "et_mm_year", "ag_et_mm_year", "pred_et_mm_year", "irrigation_efficiency"),
+                              labels = c("Irrigation (mm/yr)", "Total ET (mm/yr)", "Agricultural ET (mm/yr)", "Simulated Natural ET (mm/yr)", "Irrigation Efficiency")) +
       labs(x = "County", y = "{Reactive Variable}") +
-      theme_bw()
+      theme_classic()+
+      theme(legend.position = "none")
   })
 
   
