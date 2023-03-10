@@ -184,7 +184,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
              tabPanel("Counties",
                       sidebarLayout(
                         sidebarPanel(
-                          "WIDGETS",
+                          "First select your variable of interest, and then select your counties of interest. The counties dropdown will only show a county if it has data available for a given variable.",
                           tags$head(tags$style(type = "text/css", paste0(".vscomp-dropbox {
                                                         position: absolute !important;
                                                         bottom: 100% !important;
@@ -192,7 +192,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                                      }}"))),
                           div(style='height:300px'),
                           selectInput(inputId = 'pick_variable',
-                                      label = 'Select Variable(s)',
+                                      label = 'Select Variable',
                                       choices = c("Irrigation (mm/yr)" = "mm_year", 
                                                   "Total ET (mm/yr)" = "et_mm_year", 
                                                   "Agricultural ET (mm/yr)" = "ag_et_mm_year", 
@@ -210,60 +210,59 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                              ) # end virtualSelectInput
                                      ), #end sidebarPanel
                         
-                        mainPanel("Put my graph here!",
-                                  plotlyOutput(outputId = 'counties_plot')#,
-                                  #tableOutput(outputId = 'counties_table')
+                        mainPanel(h1("Exploring Countywide Irrigation and Evapotranspiration Data", align = "center"),
+                                  plotlyOutput(outputId = 'counties_plot')
                                  ) ### end mainPanel
-                        
+
                                     ) # end sidebarLayout
                       ), # end tabPanel 'Counties'
+
              
-             
-             tabPanel("ET by Crop Type",
+            tabPanel("ET by Crop Type",
                       sidebarPanel(
-
-                      virtualSelectInput(inputId = 'pick_et',
-                                  label = 'Select Variable:',
-                                  choices = c( "Agricultural ET (cm/yr)" = "ag_ET",
-                                              "Simulated Natural ET (cm/yr)" = "ET_pred"),
-                                  showValueAsTags = TRUE,
-                                  search = TRUE,
-                                  multiple = TRUE,
-                                  selected = c("ag_ET", "ET_pred")
-                                  ), # end selectInput,
-
-                      # Not sure how to make all options visible; they currently disappear under the title
-                      # virtualSelectInput(inputId = "select_crop",
-                      #                    label = "Select Crops",
-                      #                    choices = unique(et_crops$cropnames),
-                      #                    showValueAsTags = TRUE,
-                      #                    search = TRUE,
-                      #                    multiple = TRUE
-                      #
-                      #                    ),
-
-
-
-                      # Checkbox instead!
-
-                      awesomeCheckboxGroup(
-                        inputId = "select_crop",
-                        label = "Select Crop Types",
-                        choices = unique(et_crops$cropnames),
-                        selected = c("Fallow", "Citrus and subtropical", "Deciduous fruits and nuts",
-                                     "Field crops", "Grain and hay crops", "Pasture", "Rice", "Truck, nursery, and berry crops",
-                                     "Vineyards", "Young Perennial")
-                      ), # end of crop type selectInput
-                                  ), #end sidebarPanel
-
-                      mainPanel("Put my graph here!",
-                                plotlyOutput(outputId = 'crop_graph'),
-
-
-                                ) ### end mainPanel
-
-
-                     ), #end crop type tabPanel
+            
+                     virtualSelectInput(inputId = 'pick_et',
+                                 label = 'Select Variable:',
+                                 choices = c( "Agricultural ET (cm/yr)" = "ag_ET",
+                                             "Simulated Natural ET (cm/yr)" = "ET_pred"),
+                                 showValueAsTags = TRUE,
+                                 search = TRUE,
+                                 multiple = TRUE,
+                                 selected = c("ag_ET", "ET_pred")
+                                 ), # end selectInput,
+            
+                     # Not sure how to make all options visible; they currently disappear under the title
+                     # virtualSelectInput(inputId = "select_crop",
+                     #                    label = "Select Crops",
+                     #                    choices = unique(et_crops$cropnames),
+                     #                    showValueAsTags = TRUE,
+                     #                    search = TRUE,
+                     #                    multiple = TRUE
+                     #
+                     #                    ),
+             
+             
+             
+                     # Checkbox instead!
+             
+                     awesomeCheckboxGroup(
+                       inputId = "select_crop",
+                       label = "Select Crop Types",
+                       choices = unique(et_crops$cropnames),
+                       selected = c("Fallow", "Citrus and subtropical", "Deciduous fruits and nuts",
+                                    "Field crops", "Grain and hay crops", "Pasture", "Rice", "Truck, nursery, and berry crops",
+                                    "Vineyards", "Young Perennial")
+                     ), # end of crop type selectInput
+                                 ), #end sidebarPanel
+             
+                     mainPanel("Put my graph here!",
+                               plotlyOutput(outputId = 'crop_graph'),
+             
+             
+                               ) ### end mainPanel
+             
+             
+                    ), #end crop type tabPanel
              ) #end navbarPage
 ) # end of fluidPage
 
