@@ -71,11 +71,11 @@ color_list <- list(mm_year = c('red', 'orange', 'yellow'),
 #                    pred_et_mm_year = c('PuBuGn'),
 #                    irrigation_efficiency = c('BuGn'))
 
-# legend_list <- list(mm_year = c("Irrigation (mm/yr)"),
-#                     et_mm_year = c("Total ET (mm/yr)"),
-#                     ag_et_mm_year = c("Agricultural ET (mm/yr)"),
-#                     pred_et_mm_year = c("Simulated Natural ET (mm/yr)"),
-#                     irrigation_efficiency = c("Irrigation Efficiency"))
+legend_list <- list(mm_year = c("Irrigation (mm/yr)"),
+                    et_mm_year = c("Total ET (mm/yr)"),
+                    ag_et_mm_year = c("Agricultural ET (mm/yr)"),
+                    pred_et_mm_year = c("Simulated Natural ET (mm/yr)"),
+                    irrigation_efficiency = c("Irrigation Efficiency"))
 # 
 # legend_list$value <- unlist(legend_list$value)
 
@@ -277,9 +277,10 @@ server <- function(input, output, session){
       geom_sf(data = map_fill(), aes(fill = values, geometry = geometry),
               color = 'black', size = 0.1) +
       theme_void() +
-      scale_fill_gradientn(colors = var_color(), na.value = "white")
+      scale_fill_gradientn(colors = var_color(), na.value = "white")+
+      labs(fill = legend_name())
     
-    # labs(title = legend_name())
+   
     #   scale_colour_brewer(palette = var_color(), na.value = 'white')
       
   })
