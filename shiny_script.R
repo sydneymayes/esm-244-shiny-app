@@ -220,7 +220,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
              
             tabPanel("ET by Crop Type",
                       sidebarPanel(
-            
+
                      virtualSelectInput(inputId = 'pick_et',
                                  label = 'Select Variable:',
                                  choices = c( "Agricultural ET (cm/yr)" = "ag_ET",
@@ -230,7 +230,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                  multiple = TRUE,
                                  selected = c("ag_ET", "ET_pred")
                                  ), # end selectInput,
-            
+
                      # Not sure how to make all options visible; they currently disappear under the title
                      # virtualSelectInput(inputId = "select_crop",
                      #                    label = "Select Crops",
@@ -240,11 +240,11 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                      #                    multiple = TRUE
                      #
                      #                    ),
-             
-             
-             
+
+
+
                      # Checkbox instead!
-             
+
                      awesomeCheckboxGroup(
                        inputId = "select_crop",
                        label = "Select Crop Types",
@@ -254,14 +254,14 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                     "Vineyards", "Young Perennial")
                      ), # end of crop type selectInput
                                  ), #end sidebarPanel
-             
+
                      mainPanel("Put my graph here!",
                                plotlyOutput(outputId = 'crop_graph'),
-             
-             
+
+
                                ) ### end mainPanel
-             
-             
+
+
                     ), #end crop type tabPanel
              ) #end navbarPage
 ) # end of fluidPage
@@ -290,13 +290,15 @@ server <- function(input, output, session){
   
   output$ca_map <- renderPlotly({
     
-  
+  california_map <-
     ggplot() + 
-      geom_sf(data = map_fill(), aes(fill = values, geometry = geometry),
+      geom_sf(data = map_fill(), aes(fill = values, geometry = geometry, text = text),
               color = 'black', size = 0.1) +
       theme_void() +
       scale_fill_gradientn(colors = var_color(), na.value = "white")+
       labs(fill = legend_name())
+  
+  ggplotly(california_map, tooltip = "text")
       
   })
   
