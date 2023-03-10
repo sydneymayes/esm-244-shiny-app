@@ -297,6 +297,11 @@ server <- function(input, output, session){
       filter(name %in% input$select_county, var%in% input$pick_variable)
   })
   
+  # var_color_tab2 <- reactive({
+  #   color_list %>%
+  #     pluck(input$pick_variable)
+  })
+  
   # title <- reactive({
   #   sprintf("Name, Variable: ",
   #           input$name,
@@ -307,10 +312,11 @@ server <- function(input, output, session){
     
     ggplot() +
       geom_col(data = counties_plot_fill(), aes(x = name, y = values, fill = var), alpha = .6) +
-           scale_color_manual(values = c(mm_year = "blue3", et_mm_year = "sandybrown", ag_et_mm_year = "seagreen", pred_et_mm_year = "goldenrod4", 	
-                                         irrigation_efficiency = "deepskyblue3"),
-                              breaks=c("mm_year", "et_mm_year", "ag_et_mm_year", "pred_et_mm_year", "irrigation_efficiency"),
-                              labels = c("Irrigation (mm/yr)", "Total ET (mm/yr)", "Agricultural ET (mm/yr)", "Simulated Natural ET (mm/yr)", "Irrigation Efficiency")) +
+      # scale_fill_gradientn(colors = var_color_tab2()) +
+           # scale_color_manual(values = c(mm_year = "blue3", et_mm_year = "sandybrown", ag_et_mm_year = "seagreen", pred_et_mm_year = "goldenrod4", 	
+           #                               irrigation_efficiency = "deepskyblue3"),
+           #                    breaks=c("mm_year", "et_mm_year", "ag_et_mm_year", "pred_et_mm_year", "irrigation_efficiency"),
+           #                    labels = c("Irrigation (mm/yr)", "Total ET (mm/yr)", "Agricultural ET (mm/yr)", "Simulated Natural ET (mm/yr)", "Irrigation Efficiency")) +
       labs(x = "County", y = "{Reactive Variable}") +
       theme_classic()+
       theme(legend.position = "none")
