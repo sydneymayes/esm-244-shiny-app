@@ -8,7 +8,6 @@ library(sf)
 library(tmap)
 library(shinyWidgets)
 library(stats)
-library(RColorBrewer)
 library(plotly)
 
 ### CA counties data set from Anna, we'll need to use one with crop type when we're ready
@@ -64,18 +63,12 @@ color_list <- list(mm_year = c('red', 'orange', 'yellow'),
                    pred_et_mm_year = c('purple', 'pink', 'red'),
                    irrigation_efficiency = c('cyan', 'blue', 'midnightblue'))
 
-### trying this to change to Brewers, but having issues
-# color_list <- list(mm_year = c('YlOrRd'),
-#                    et_mm_year = c('YlGnBu'),
-#                    ag_et_mm_year = c('Reds'),
-#                    pred_et_mm_year = c('PuBuGn'),
-#                    irrigation_efficiency = c('BuGn'))
 
-# legend_list <- list(mm_year = c("Irrigation (mm/yr)"),
-#                     et_mm_year = c("Total ET (mm/yr)"),
-#                     ag_et_mm_year = c("Agricultural ET (mm/yr)"),
-#                     pred_et_mm_year = c("Simulated Natural ET (mm/yr)"),
-#                     irrigation_efficiency = c("Irrigation Efficiency"))
+legend_list <- list(mm_year = c("Irrigation (mm/yr)"),
+                    et_mm_year = c("Total ET (mm/yr)"),
+                    ag_et_mm_year = c("Agricultural ET (mm/yr)"),
+                    pred_et_mm_year = c("Simulated Natural ET (mm/yr)"),
+                    irrigation_efficiency = c("Irrigation Efficiency"))
 # 
 # legend_list$value <- unlist(legend_list$value)
 
@@ -277,23 +270,34 @@ server <- function(input, output, session){
       geom_sf(data = map_fill(), aes(fill = values, geometry = geometry),
               color = 'black', size = 0.1) +
       theme_void() +
-      scale_fill_gradientn(colors = var_color(), na.value = "white")
-    
-    # labs(title = legend_name())
-    #   scale_colour_brewer(palette = var_color(), na.value = 'white')
+      scale_fill_gradientn(colors = var_color(), na.value = "white")+
+      labs(fill = legend_name())
       
   })
   
 ### Tab 2 (Ashley)
-
-  observeEvent(input$pick_variable,  {
-    input_select_county <- final_sf %>%
-    filter(var %in% input$pick_variable, !is.na(values)) %>% 
-    select(name)
-    updateVirtualSelect("select_county", label = "Select Counties", choices = input_select_county,
-                        session = shiny::getDefaultReactiveDomain())
-  })
-
+ 
+  # input_select_county <- reactive({final_sf$name %>% 
+  #     filter(var %in% input$pick_variable, !is.na(values))
+  # })
+  # 
+  # observe({
+  #   updateVirtualSelect("select_county", label = "Select Counties", choices = input_select_county(),
+  #                       session = shiny::getDefaultReactiveDomain())
+  # })
+  # 
+  # output$IdDatatable <- renderTable(DATA)
+  
+  # updateVirtualSelect(
+  #   inputId,
+  #   label = NULL,
+  #   choices = NULL,
+  #   selected = NULL,
+  #   disable = NULL,
+  #   disabledChoices = NULL,
+  #   session = shiny::getDefaultReactiveDomain()
+  # )
+  
   # virtualSelectInput(inputId = "select_county",
   #                    label = "Select Counties",
   #                    choices = list("Northern California" = nc,
@@ -340,6 +344,7 @@ server <- function(input, output, session){
   
   output$crop_graph <- renderPlotly({
     
+    # Try with plotly instead of ggplot
     scalar = 1.2
     ggplot() + 
       geom_col(data = crop_fill(), aes(x = cropnames, y = ET*scalar, text = paste("ET:", ET*scalar), fill = type), alpha = .6) +
