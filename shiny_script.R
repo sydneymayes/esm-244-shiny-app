@@ -52,7 +52,22 @@ final_sf <- et_counties_clean %>%
   select(-lon, -lat) %>% 
   pivot_longer(cols = mm_year:irrigation_efficiency,
                names_to = "var",
-               values_to = "values")
+               values_to = "values") %>% 
+  mutate(text = paste0(name, " County", "\n",
+                       case_when(
+                         var %in% "mm_year" ~ "Irrigation (mm/year)",
+                         var %in% "et_mm_year" ~ "Total ET (mm/year)",
+                         var %in% "ag_et_mm_year"~ "Agricultural ET (mm/year)",
+                         var %in% "pred_et_mm_year" ~ "Simulated Natural ET (mm/year)",
+                         var %in% "irrigation_efficiency" ~ "Irrigation Efficiency"), ":",
+                       " ", round(values, 0.01), " ",
+                       case_when(
+                         var %in% "mm_year" ~ "mm",
+                         var %in% "et_mm_year" ~ "mm",
+                         var %in% "ag_et_mm_year"~ "mm",
+                         var %in% "pred_et_mm_year" ~ "mm",
+                         var %in% "irrigation_efficiency" ~ "%")))
+
 
 
 ### setting up colors and legend for map on overview tab
@@ -70,12 +85,12 @@ legend_list <- list(mm_year = c("Irrigation (mm/yr)"),
                     pred_et_mm_year = c("Simulated Natural ET (mm/yr)"),
                     irrigation_efficiency = c("Irrigation Efficiency"))
 
-### colors for Ashley's plot (ASHLEY UPDATE COLORS HERE!!)
-color_list_2 <- list(mm_year = c('red'),
-                   et_mm_year = c('green'),
-                   ag_et_mm_year = c('cyan'),
-                   pred_et_mm_year = c('purple'),
-                   irrigation_efficiency = c('midnightblue'))
+### Colors for Ashley's plot
+color_list_2 <- list(mm_year = c('blue4'),
+                   et_mm_year = c('firebrick4'),
+                   ag_et_mm_year = c('seagreen'),
+                   pred_et_mm_year = c('goldenrod4'),
+                   irrigation_efficiency = c('palegreen3'))
 
 ### (### THIS IS SPACE FOR RACHEL TO CODE ###)
 
@@ -196,7 +211,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                      ), #end sidebarPanel
                         
                         mainPanel("Put my graph here!",
-                                  plotOutput(outputId = 'counties_plot')#,
+                                  plotlyOutput(outputId = 'counties_plot')#,
                                   #tableOutput(outputId = 'counties_table')
                                  ) ### end mainPanel
                         
@@ -312,22 +327,22 @@ server <- function(input, output, session){
   #           input$name,
   #           input$var)
   # })
+  
+  y_axis <- reactive ({
+    legend_list %>% 
+      pluck(input$pick_variable)
+  })
 
-  output$counties_plot <- renderPlot({
-    
-    ggplot(data = counties_plot_fill(), aes(x = name, y = values, fill = values),
-           alpha = .6) +
+  output$counties_plot <- renderPlotly({
+    counties_map <- ggplot(data = counties_plot_fill(),
+                            aes(x = name, y = values, fill = values, text = text),
+                            alpha = .6) +
       geom_col(fill = var_color_tab2()) +
-      labs(x = "County", y = "{Reactive Variable}") +
+      labs(x = "County", y = y_axis()) +
       theme_classic()+
       theme(legend.position = "none")
     
-    # ggplot(upc, aes(x = reorder(Abb, Change), y = Change, fill = Region)) +
-    #   geom_col(colour = "black") +
-    #   scale_fill_manual(values = c("#669933", "#FFCC66")) +
-    #   xlab("State")
-    
-    
+    ggplotly(counties_map, tooltip = "text")
   })
   
 ### Tab 3 (Syd)
