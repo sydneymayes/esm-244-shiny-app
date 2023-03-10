@@ -344,6 +344,7 @@ server <- function(input, output, session){
   
   output$crop_graph <- renderPlotly({
     
+    # Try with plotly instead of ggplot
     scalar = 1.2
     ggplot() + 
       geom_col(data = crop_fill(), aes(x = cropnames, y = ET*scalar, text = paste("ET:", ET*scalar), fill = type), alpha = .6) +
