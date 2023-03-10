@@ -276,28 +276,16 @@ server <- function(input, output, session){
   })
   
 ### Tab 2 (Ashley)
- 
-  # input_select_county <- reactive({final_sf$name %>% 
-  #     filter(var %in% input$pick_variable, !is.na(values))
-  # })
-  # 
-  # observe({
-  #   updateVirtualSelect("select_county", label = "Select Counties", choices = input_select_county(),
-  #                       session = shiny::getDefaultReactiveDomain())
-  # })
-  # 
-  # output$IdDatatable <- renderTable(DATA)
-  
-  # updateVirtualSelect(
-  #   inputId,
-  #   label = NULL,
-  #   choices = NULL,
-  #   selected = NULL,
-  #   disable = NULL,
-  #   disabledChoices = NULL,
-  #   session = shiny::getDefaultReactiveDomain()
-  # )
-  
+
+  observeEvent(input$select_variables{
+    input_select_county <- final_sf %>%
+      filter(var %in% input$pick_variable, !is.na(values)) %>% 
+      select(name)
+    updateVirtualSelect("select_county", label = "Select Counties", choices = input_select_county,
+                        session = shiny::getDefaultReactiveDomain())
+  })
+
+
   # virtualSelectInput(inputId = "select_county",
   #                    label = "Select Counties",
   #                    choices = list("Northern California" = nc,
