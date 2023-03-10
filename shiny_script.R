@@ -21,9 +21,9 @@ et_counties_clean <- et_counties %>%
          pred_et_mm_year, irrigation_efficiency, lon, lat)
 
 ### Crop type data from Anna (### THIS IS SPACE FOR SYD TO CODE ###)
-et_crops <- read_csv(here("data", "bardata.csv"))
-et_crops_no_observed <- et_crops %>%
-  filter(type != 'ET')
+# et_crops <- read_csv(here("data", "bardata.csv"))
+# et_crops_no_observed <- et_crops %>%
+#   filter(type != 'ET')
 
 
 
@@ -200,51 +200,51 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                       ), # end tabPanel 'Counties'
              
              
-             tabPanel("ET by Crop Type",
-                      sidebarPanel(
-
-                      virtualSelectInput(inputId = 'pick_et',
-                                  label = 'Select Variable:',
-                                  choices = c( "Agricultural ET (cm/yr)" = "ag_ET",
-                                              "Simulated Natural ET (cm/yr)" = "ET_pred"),
-                                  showValueAsTags = TRUE,
-                                  search = TRUE,
-                                  multiple = TRUE,
-                                  selected = c("ag_ET", "ET_pred")
-                                  ), # end selectInput,
-
-                      # Not sure how to make all options visible; they currently disappear under the title
-                      # virtualSelectInput(inputId = "select_crop",
-                      #                    label = "Select Crops",
-                      #                    choices = unique(et_crops$cropnames),
-                      #                    showValueAsTags = TRUE,
-                      #                    search = TRUE,
-                      #                    multiple = TRUE
-                      #
-                      #                    ),
-
-
-
-                      # Checkbox instead!
-
-                      awesomeCheckboxGroup(
-                        inputId = "select_crop",
-                        label = "Select Crop Types",
-                        choices = unique(et_crops$cropnames),
-                        selected = c("Fallow", "Citrus and subtropical", "Deciduous fruits and nuts",
-                                     "Field crops", "Grain and hay crops", "Pasture", "Rice", "Truck, nursery, and berry crops",
-                                     "Vineyards", "Young Perennial")
-                      ), # end of crop type selectInput
-                                  ), #end sidebarPanel
-
-                      mainPanel("Put my graph here!",
-                                plotlyOutput(outputId = 'crop_graph'),
-
-
-                                ) ### end mainPanel
-
-
-                     ), #end crop type tabPanel
+             # tabPanel("ET by Crop Type",
+             #          sidebarPanel(
+             # 
+             #          virtualSelectInput(inputId = 'pick_et',
+             #                      label = 'Select Variable:',
+             #                      choices = c( "Agricultural ET (cm/yr)" = "ag_ET",
+             #                                  "Simulated Natural ET (cm/yr)" = "ET_pred"),
+             #                      showValueAsTags = TRUE,
+             #                      search = TRUE,
+             #                      multiple = TRUE,
+             #                      selected = c("ag_ET", "ET_pred")
+             #                      ), # end selectInput,
+             # 
+             #          # Not sure how to make all options visible; they currently disappear under the title
+             #          # virtualSelectInput(inputId = "select_crop",
+             #          #                    label = "Select Crops",
+             #          #                    choices = unique(et_crops$cropnames),
+             #          #                    showValueAsTags = TRUE,
+             #          #                    search = TRUE,
+             #          #                    multiple = TRUE
+             #          #
+             #          #                    ),
+             # 
+             # 
+             # 
+             #          # Checkbox instead!
+             # 
+             #          awesomeCheckboxGroup(
+             #            inputId = "select_crop",
+             #            label = "Select Crop Types",
+             #            choices = unique(et_crops$cropnames),
+             #            selected = c("Fallow", "Citrus and subtropical", "Deciduous fruits and nuts",
+             #                         "Field crops", "Grain and hay crops", "Pasture", "Rice", "Truck, nursery, and berry crops",
+             #                         "Vineyards", "Young Perennial")
+             #          ), # end of crop type selectInput
+             #                      ), #end sidebarPanel
+             # 
+             #          mainPanel("Put my graph here!",
+             #                    plotlyOutput(outputId = 'crop_graph'),
+             # 
+             # 
+             #                    ) ### end mainPanel
+             # 
+             # 
+             #         ), #end crop type tabPanel
              ) #end navbarPage
 ) # end of fluidPage
 
@@ -285,28 +285,15 @@ server <- function(input, output, session){
   })
   
 ### Tab 2 (Ashley)
- 
-  input_select_county <- reactive({final_sf %>%
-      filter(var %in% input$pick_variable, !is.na(values))
-  })
 
-  observeEvent({
-    updateVirtualSelect("select_county", label = "Select Counties", choices = input_select_county$name(),
+  observeEvent(input$pick_variable,  {
+    input_select_county <- final_sf %>%
+    filter(var %in% input$pick_variable, !is.na(values)) %>% 
+    select(name)
+    updateVirtualSelect("select_county", label = "Select Counties", choices = input_select_county,
                         session = shiny::getDefaultReactiveDomain())
   })
-  # 
-  # output$IdDatatable <- renderTable(DATA)
-  
-  # updateVirtualSelect(
-  #   inputId,
-  #   label = NULL,
-  #   choices = NULL,
-  #   selected = NULL,
-  #   disable = NULL,
-  #   disabledChoices = NULL,
-  #   session = shiny::getDefaultReactiveDomain()
-  # )
-  
+
   # virtualSelectInput(inputId = "select_county",
   #                    label = "Select Counties",
   #                    choices = list("Northern California" = nc,
