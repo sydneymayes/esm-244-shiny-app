@@ -277,7 +277,7 @@ server <- function(input, output, session){
   
 ### Tab 2 (Ashley)
 
-  observeEvent(input$select_variables{
+  observeEvent(input$pick_variable {
     input_select_county <- final_sf %>%
       filter(var %in% input$pick_variable, !is.na(values)) %>% 
       select(name)
@@ -285,17 +285,6 @@ server <- function(input, output, session){
                         session = shiny::getDefaultReactiveDomain())
   })
 
-
-  # virtualSelectInput(inputId = "select_county",
-  #                    label = "Select Counties",
-  #                    choices = list("Northern California" = nc,
-  #                                   "Central Valley" = cv,
-  #                                   "Southern California" = sc),
-  #                    showValueAsTags = TRUE,
-  #                    search = TRUE,
-  #                    multiple = TRUE
-  # ) # end virtualSelectInput
-  # ), #end sidebarPanel
   
   counties_plot_fill <- reactive({
     final_sf %>%
