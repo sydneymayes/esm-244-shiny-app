@@ -69,8 +69,13 @@ legend_list <- list(mm_year = c("Irrigation (mm/yr)"),
                     ag_et_mm_year = c("Agricultural ET (mm/yr)"),
                     pred_et_mm_year = c("Simulated Natural ET (mm/yr)"),
                     irrigation_efficiency = c("Irrigation Efficiency"))
-# 
-# legend_list$value <- unlist(legend_list$value)
+
+### colors for Ashley's plot (ASHLEY UPDATE COLORS HERE!!)
+color_list_2 <- list(mm_year = c('red'),
+                   et_mm_year = c('green'),
+                   ag_et_mm_year = c('cyan'),
+                   pred_et_mm_year = c('purple'),
+                   irrigation_efficiency = c('midnightblue'))
 
 ### (### THIS IS SPACE FOR RACHEL TO CODE ###)
 
@@ -294,12 +299,12 @@ server <- function(input, output, session){
   
   counties_plot_fill <- reactive({
     final_sf %>%
-      filter(name %in% input$select_county, var%in% input$pick_variable)
+      filter(name %in% input$select_county, var %in% input$pick_variable)
   })
   
-  # var_color_tab2 <- reactive({
-  #   color_list %>%
-  #     pluck(input$pick_variable)
+  var_color_tab2 <- reactive({
+    color_list_2 %>%
+      pluck(input$pick_variable)
   })
   
   # title <- reactive({
@@ -310,16 +315,19 @@ server <- function(input, output, session){
 
   output$counties_plot <- renderPlot({
     
-    ggplot() +
-      geom_col(data = counties_plot_fill(), aes(x = name, y = values, fill = var), alpha = .6) +
-      # scale_fill_gradientn(colors = var_color_tab2()) +
-           # scale_color_manual(values = c(mm_year = "blue3", et_mm_year = "sandybrown", ag_et_mm_year = "seagreen", pred_et_mm_year = "goldenrod4", 	
-           #                               irrigation_efficiency = "deepskyblue3"),
-           #                    breaks=c("mm_year", "et_mm_year", "ag_et_mm_year", "pred_et_mm_year", "irrigation_efficiency"),
-           #                    labels = c("Irrigation (mm/yr)", "Total ET (mm/yr)", "Agricultural ET (mm/yr)", "Simulated Natural ET (mm/yr)", "Irrigation Efficiency")) +
+    ggplot(data = counties_plot_fill(), aes(x = name, y = values, fill = values),
+           alpha = .6) +
+      geom_col(fill = var_color_tab2()) +
       labs(x = "County", y = "{Reactive Variable}") +
       theme_classic()+
       theme(legend.position = "none")
+    
+    # ggplot(upc, aes(x = reorder(Abb, Change), y = Change, fill = Region)) +
+    #   geom_col(colour = "black") +
+    #   scale_fill_manual(values = c("#669933", "#FFCC66")) +
+    #   xlab("State")
+    
+    
   })
   
 ### Tab 3 (Syd)
