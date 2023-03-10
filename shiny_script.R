@@ -277,7 +277,7 @@ server <- function(input, output, session){
   
 ### Tab 2 (Ashley)
 
-  observeEvent(input$pick_variable {
+  observeEvent(input$pick_variable,  {
     input_select_county <- final_sf %>%
       filter(var %in% input$pick_variable, !is.na(values)) %>% 
       select(name)
