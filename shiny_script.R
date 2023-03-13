@@ -365,11 +365,12 @@ server <- function(input, output, session){
   output$crop_graph <- renderPlotly({
     
     # Try with plotly instead of ggplot
-    scalar = 1.2
+    #scalar = 1.2 -- multiply ET by this if you want to convert to cm
+    # decided to change back to mm for consistency across tabs
     ggplot() + 
-      geom_col(data = crop_fill(), aes(x = cropnames, y = ET*scalar, text = paste("ET:", ET*scalar), fill = type), alpha = .6) +
+      geom_col(data = crop_fill(), aes(x = cropnames, y = ET, text = paste("ET:", ET), fill = type), alpha = .6) +
       scale_fill_manual(values=c(ag_ET="seagreen", ET_pred="goldenrod4"), breaks=c("ag_ET","ET_pred"), labels = c("Agricultural ET", "Simulated natural ET")) +
-      ylab("cm/year") + 
+      ylab("mm/year") + 
       theme_classic() + 
       labs(fill='') + 
       theme(axis.text.x = element_text(angle = 30, hjust=1), 
