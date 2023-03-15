@@ -69,8 +69,6 @@ final_sf <- et_counties_clean %>%
                          var %in% "irrigation_efficiency" ~ "%"))) %>% 
   mutate(text = ifelse(is.na(values), "No data", text))
 
-### add another mutate
-### mutate(text = ifelse(is.na(values)), "Not applicable, no data, etc", text)
 
 
 
