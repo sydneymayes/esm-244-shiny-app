@@ -59,14 +59,18 @@ final_sf <- et_counties_clean %>%
                          var %in% "et_mm_year" ~ "Total ET (mm/year)",
                          var %in% "ag_et_mm_year"~ "Agricultural ET (mm/year)",
                          var %in% "pred_et_mm_year" ~ "Simulated Natural ET (mm/year)",
-                         var %in% "irrigation_efficiency" ~ "Irrigation Efficiency"), ":",
-                       " ", round(values, 0.01), " ",
+                         var %in% "irrigation_efficiency" ~ "Irrigation Efficiency"),
+                       ":", " ", round(values, 0.01), " ",
                        case_when(
                          var %in% "mm_year" ~ "mm",
                          var %in% "et_mm_year" ~ "mm",
                          var %in% "ag_et_mm_year"~ "mm",
                          var %in% "pred_et_mm_year" ~ "mm",
-                         var %in% "irrigation_efficiency" ~ "%")))
+                         var %in% "irrigation_efficiency" ~ "%"))) %>% 
+  mutate(text = ifelse(is.na(values), "No data", text))
+
+### add another mutate
+### mutate(text = ifelse(is.na(values)), "Not applicable, no data, etc", text)
 
 
 
@@ -166,6 +170,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                        it. Ultimately, this data can help inform water resource management decisions by highlighting which parts of the 
                         state are using the most water for agriculture, how efficient they are, and which crops are using the most water."
                       ), ### end of fluidRow
+      
                       
                       sidebarLayout(
                         sidebarPanel(
@@ -305,7 +310,12 @@ server <- function(input, output, session){
       scale_fill_gradientn(colors = var_color(), na.value = "white")+
       labs(fill = legend_name())
   
-  ggplotly(california_map, tooltip = "text")
+  ggplotly(california_map, tooltip = "text") %>% 
+    style(hoveron = 'fill')
+  
+  
+  ## https://community.plotly.com/t/how-to-make-tooltips-show-in-region-rather-than-on-border-map-using-ggplotly/13507
+
       
   })
   
