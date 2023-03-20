@@ -224,7 +224,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                              ) # end virtualSelectInput
                                      ), #end sidebarPanel
                         
-                        mainPanel(h1("Exploring Countywide Irrigation and Evapotranspiration Data", align = "center"),
+                        mainPanel(h2("Exploring Countywide Irrigation and Evapotranspiration Data", align = "center"),
                                   plotlyOutput(outputId = 'counties_plot')
                                  ) ### end mainPanel
 
@@ -341,12 +341,7 @@ server <- function(input, output, session){
     color_list_2 %>%
       pluck(input$pick_variable)
   })
-  
-  # title <- reactive({
-  #   sprintf("Name, Variable: ",
-  #           input$name,
-  #           input$var)
-  # })
+
   
   y_axis <- reactive ({
     legend_list %>% 
