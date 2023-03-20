@@ -53,6 +53,10 @@ final_sf <- et_counties_clean %>%
   pivot_longer(cols = mm_year:irrigation_efficiency,
                names_to = "var",
                values_to = "values") %>% 
+  mutate(values_text = case_when(is.na(values) ~ "No data", 
+                                 TRUE ~ round(values, 2) %>% as.character())) %>% 
+                                 
+
   mutate(text = paste0(name, " County", "\n",
                        case_when(
                          var %in% "mm_year" ~ "Irrigation (mm/year)",
@@ -60,14 +64,14 @@ final_sf <- et_counties_clean %>%
                          var %in% "ag_et_mm_year"~ "Agricultural ET (mm/year)",
                          var %in% "pred_et_mm_year" ~ "Simulated Natural ET (mm/year)",
                          var %in% "irrigation_efficiency" ~ "Irrigation Efficiency"),
-                       ":", " ", round(values, 0.01), " ",
+                       ":", " ", values_text, " ",
                        case_when(
                          var %in% "mm_year" ~ "mm",
                          var %in% "et_mm_year" ~ "mm",
                          var %in% "ag_et_mm_year"~ "mm",
                          var %in% "pred_et_mm_year" ~ "mm",
-                         var %in% "irrigation_efficiency" ~ "%"))) %>% 
-  mutate(text = ifelse(is.na(values), "No data", text))
+                         var %in% "irrigation_efficiency" ~ "%"))) 
+  # mutate(text = ifelse(is.na(values), "No data", text))
 
 
 
