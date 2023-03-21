@@ -68,7 +68,7 @@ final_sf <- et_counties_clean %>%
 
 ### setting up colors and legend for map on overview tab
 
-color_list <- list(mm_year = c('blue4', 'blue', 'cyan'),
+color_list <- list(mm_year = c('blue4', 'cyan', 'darkgreen'),
                    et_mm_year = c('firebrick4', 'orange', 'yellow'),
                    ag_et_mm_year = c('seagreen', 'skyblue3', 'plum3'),
                    pred_et_mm_year = c('goldenrod4', 'sienna1', 'saddlebrown'),
@@ -121,9 +121,12 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                         state are using the most water for agriculture, how efficient they are, and which crops are using the most water."
                               ), ### end of fluidRow
                       
-                      mainPanel(
-                        img(src='data/crop_pics/citrus.jpg', align = "center"),
-                      ) ### end of mainPanel
+                      column(12, align="center",
+                             br(),
+                             img(src = "https://extension.umn.edu/sites/extension.umn.edu/files/soil-water-components.png", 
+                                 width = 500),
+                             p("Sourced from University of Minnesota Extension")
+                      ) #end of column
                       
                       
                       ), #End "Overview" tabPanel
