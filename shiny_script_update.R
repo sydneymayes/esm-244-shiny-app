@@ -231,7 +231,8 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                               "Truck, nursery, and berry crops" = "berry",
                                               "Vineyards" = "vineyard",
                                               "Young Perennial" = "perennial"
-                                              ) # end of radioButtons
+                                              ), # end of choices
+                                  selected = "berry"
                      ) # end of radioButtons
                      
                                  ), #end sidebarPanel
@@ -239,7 +240,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                      
                      mainPanel(h2("Exploring Evapotranspiration Data by Crop Type", align = "center"),
                                plotlyOutput(outputId = 'crop_graph'),
-                               plotlyOutput(outputId = 'crop_pics')
+                               imageOutput('crop_pics')
                                
 
                                ) ### end mainPanel
@@ -367,9 +368,9 @@ server <- function(input, output, session){
   )
   
   output$crop_pics <- renderImage({
-    filename <- here('./crop_pics',paste('image_', input$crop_photo, '.jpeg', sep=''))
+    filename <- here('./data/crop_pics',paste(input$pick_crop_photo, '.jpeg', sep=''))
     list(src = filename,
-         alt = paste("Crop: ", input$crop_photo), width = 500, height = 350)
+         alt = paste("Crop: ", input$pick_crop_photo), width = 500, height = 350)
     
   }, deleteFile = FALSE)
   
