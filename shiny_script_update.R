@@ -107,20 +107,24 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
              tabPanel("Overview",      
                       
                       fluidRow(
+                        h2("Irrigation Efficiency and Crop Type of California Counties", align = "center"
+                        ),### end of h2
+                        br(),
                         h3("Background"
-                          ) ### end of h3
+                          ), ### end of h3
                               ), ### end of fluidRow 
                       
                       fluidRow(
-                      p("This project is meant to help visualize Agricultural Evapotranspiration (ET) 
+                      p("This project visualizes agricultural evapotranspiration (ET) 
                         data provided by Anna Boser, a 3rd year Bren School PhD student. Evapotranspiration refers
-                        to the movement of water from the earth to the atmosphere. In this dataset, Agricultural ET is calculated by
-                        taking observed ET from satellites and subtracting natural ET (simulated using machine learning). Here we 
-                        visualize this data by county and by crop type. Irrigation efficiency is also calculated by dividing Agricultural ET
-                        by Total Irrigation."), 
-                      p("By visualizing this data we can see how much water counties in California are using for agriculture and how efficient they are at using 
-                       it. Ultimately, this data can help inform water resource management decisions by highlighting which parts of the 
-                        state are using the most water for agriculture, how efficient they are, and which crops are using the most water."),
+                        to the movement of water from the earth to the atmosphere. In this dataset, agricultural ET is calculated by
+                        taking observed ET from satellites and subtracting natural ET (simulated using machine learning). 
+                        Additionally, irrigation efficiency is calculated by dividing agricultural ET
+                        by total irrigation. Here we analyze these data by county and crop type."), 
+                      p("By visualizing these data, we see how water is used for agriculture throughout counties in California and how 
+                      efficiently it is used. Ultimately, these data can help inform water resource management decisions by highlighting 
+                      which parts of the state use the most water, which have the lowest irrigation efficiency, and which crops 
+                      have the highest water demand."),
                               ), ### end of fluidRow
                       
                       column(12, align="center",
@@ -221,6 +225,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                     "Vineyards", "Young Perennial")
                      ), # end of crop type selectInput
                      
+                     
                      radioButtons(inputId = 'pick_crop_photo',
                                   label = "Select to view photo of crop type",
                                   choices = c("Citrus and subtropical" = "citrus",
@@ -236,14 +241,20 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                               ), # end of choices
                                   selected = "citrus"
                      ) # end of radioButtons
-                     
+                        
+                       
                                  ), #end sidebarPanel
 
-                     
+                   
                      mainPanel(h2("Exploring Evapotranspiration Data by Crop Type", align = "center"),
                                plotlyOutput(outputId = 'crop_graph'),
-                               imageOutput('crop_pics')
                                
+                               fluidRow(
+                                 column(12, align="center",
+                               
+                               imageOutput('crop_pics')
+                                       ), #end of column
+                                       ) # end of fluidRow
 
                                ) ### end mainPanel
 
