@@ -96,16 +96,16 @@ et_counties_mod <- et_counties_clean %>%
 
 
 ### Creating a dataframe for reactive crop citations
-photo_citations <- list( citrus = "Crop: Citrus and subtropical. Citation: ",
-                         deciduous = "Crop: Deciduous fruit and nuts. Citation: ",
-                         fallow =  "Crop: Fallow. Citation: ",
-                         field = "Crop: Field crops. Citation: ",
-                         hay = "Crop: Grain and hay crops. Citation: ",
-                         pasture = "Crop: Pasture. Citation: ",
-                         rice = "Crop: Rice. Citation: ",
-                         berry = "Crop: Truck, nursery, and berry crops. Citation: ",
-                         vineyard = "Crop: Vineyards. Citation: ",
-                         perennial = "Crop: Young Perennial. Citation: ")
+photo_citations <- list( citrus = "Crop: Citrus and subtropical. Citation: https://cdn.farmjournal.com/s3fs-public/2021-05/Sunkist%20Ojai%20Pixie.jpg",
+                         deciduous = "Crop: Deciduous fruit and nuts. Citation: https://gardenerspath.com/wp-content/uploads/2019/12/Cold-Hardy-Figs-FB.jpg",
+                         fallow =  "Crop: Fallow. Citation: https://judekampfner.com/wp-content/uploads/2020/02/fallow-field-imageSIZED.jpg",
+                         field = "Crop: Field crops. Citation: https://s3.amazonaws.com/assets.cce.cornell.edu/slides/1644/image/sized/Gill_Farms.jpg",
+                         hay = "Crop: Grain and hay crops. Citation: https://www.feedipedia.org/sites/default/files/images/wheat_forage.jpg",
+                         pasture = "Crop: Pasture. Citation: https://img.hobbyfarms.com/cow_cattle_pasture_grass.jpg",
+                         rice = "Crop: Rice. Citation: https://www.csuchico.edu/regenerativeagriculture/_assets/images/blog/rice/blog-rice.jpg",
+                         berry = "Crop: Truck, nursery, and berry crops. Citation: https://tinyurl.com/2zncb7xu",
+                         vineyard = "Crop: Vineyards. Citation: https://wolffvineyards.com/wp-content/uploads/2019/06/Vinyard-at-dawn-1280x720.jpg",
+                         perennial = "Crop: Young Perennial. Citation: https://tinyurl.com/2saebfk5")
 
 ### Create the user interface (shiny uses camelCase)
 ui <- fluidPage(theme = shinytheme('sandstone'),
