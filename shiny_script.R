@@ -209,11 +209,30 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                     "Field crops", "Grain and hay crops", "Pasture", "Rice", "Truck, nursery, and berry crops",
                                     "Vineyards", "Young Perennial")
                      ), # end of crop type selectInput
+                     
+                     radioButtons(inputId = 'pick_crop_photo',
+                                  label = "Select to view photo of crop type",
+                                  choices = c("Citrus and subtropical",
+                                              "Deciduous fruit and nuts",
+                                              "Fallow",
+                                              "Field crops",
+                                              "Grain and hay crops",
+                                              "Pasture",
+                                              "Rice",
+                                              "Truck, nursery, and berry crops",
+                                              "Vineyards",
+                                              "Young Perennial"
+                                              ) # end of radioButtons
+                     ) # end of radioButtons
+                     
+                     
+                     
+                     
                                  ), #end sidebarPanel
 
                      mainPanel(h2("Exploring Evapotranspiration Data by Crop Type", align = "center"),
                                plotlyOutput(outputId = 'crop_graph'),
-
+                               
 
                                ) ### end mainPanel
 
