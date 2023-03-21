@@ -378,7 +378,7 @@ server <- function(input, output, session){
   output$crop_graph <- renderPlotly({
     
     # Try with plotly instead of ggplot
-    #scalar = 1.2 #-- multiply ET by this if you want to convert to cm
+    scalar = 1.2 #-- multiply ET by this if you want to convert to cm
     # decided to change back to mm for consistency across tabs
     ggplot() + 
       geom_col(data = crop_fill(), aes(x = cropnames, y = ET, text = paste("ET:", ET*scalar), fill = type), alpha = .6) +
