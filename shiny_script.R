@@ -120,6 +120,12 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                        it. Ultimately, this data can help inform water resource management decisions by highlighting which parts of the 
                         state are using the most water for agriculture, how efficient they are, and which crops are using the most water."
                               ), ### end of fluidRow
+                      
+                      mainPanel(
+                        img(src='data/crop_pics/citrus.jpg', align = "center"),
+                      ) ### end of mainPanel
+                      
+                      
                       ), #End "Overview" tabPanel
              
              tabPanel("Map",
