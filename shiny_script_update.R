@@ -367,9 +367,9 @@ server <- function(input, output, session){
   )
   
   output$crop_pics <- renderImage({
-    filename <- here('./photos',paste('image_', input$habitat_type_photo, '.jpg', sep=''))
+    filename <- here('./crop_pics',paste('image_', input$crop_photo, '.jpeg', sep=''))
     list(src = filename,
-         alt = paste("Crop: ", input$habitat_type_photo), width = 500, height = 350)
+         alt = paste("Crop: ", input$crop_photo), width = 500, height = 350)
     
   }, deleteFile = FALSE)
   
