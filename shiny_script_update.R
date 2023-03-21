@@ -234,7 +234,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                               "Vineyards" = "vineyard",
                                               "Young Perennial" = "perennial"
                                               ), # end of choices
-                                  selected = "berry"
+                                  selected = "citrus"
                      ) # end of radioButtons
                      
                                  ), #end sidebarPanel
@@ -372,7 +372,7 @@ server <- function(input, output, session){
   output$crop_pics <- renderImage({
     filename <- here('./data/crop_pics',paste(input$pick_crop_photo, '.jpeg', sep=''))
     list(src = filename,
-         alt = paste("Crop: ", input$pick_crop_photo), width = 500, height = 350)
+         alt = paste("Crop: ", input$pick_crop_photo), width = 600, height = 350, align = "center")
     
   }, deleteFile = FALSE)
   
