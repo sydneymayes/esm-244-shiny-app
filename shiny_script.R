@@ -358,15 +358,15 @@ server <- function(input, output, session){
   })
 
   crop_photo <- reactive({
-    if(input$habitat_type_photo == TRUE){
-      image(src = "image_habitat")
+    if(input$pick_crop_photo == TRUE){
+      image(src = "crop_pics")
     }
     else{
     }
   }
   )
   
-  #   ### Define habitat images
+   ### Define habitat images
   output$image_habitat <- renderImage({
     ### When input$n is 'Urban', filename is ./photos/image_Urban.jpg
     filename <- here('./photos',paste('image_', input$habitat_type_photo, '.jpg', sep=''))
