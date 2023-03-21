@@ -212,16 +212,16 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                      
                      radioButtons(inputId = 'pick_crop_photo',
                                   label = "Select to view photo of crop type",
-                                  choices = c("Citrus and subtropical",
-                                              "Deciduous fruit and nuts",
-                                              "Fallow",
-                                              "Field crops",
-                                              "Grain and hay crops",
-                                              "Pasture",
-                                              "Rice",
-                                              "Truck, nursery, and berry crops",
-                                              "Vineyards",
-                                              "Young Perennial"
+                                  choices = c("Citrus and subtropical" = "citrus",
+                                              "Deciduous fruit and nuts" = "nuts",
+                                              "Fallow" = "fallow",
+                                              "Field crops" = "field",
+                                              "Grain and hay crops" = "grain",
+                                              "Pasture" = "pasture",
+                                              "Rice" = "rice",
+                                              "Truck, nursery, and berry crops" = "berry",
+                                              "Vineyards" = "vineyard",
+                                              "Young Perennial" = "perennial"
                                               ) # end of radioButtons
                      ) # end of radioButtons
                      
@@ -230,6 +230,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                      
                      mainPanel(h2("Exploring Evapotranspiration Data by Crop Type", align = "center"),
                                plotlyOutput(outputId = 'crop_graph'),
+                               plotlyOutput(outputId = 'crop_pics')
                                
 
                                ) ### end mainPanel
@@ -347,9 +348,32 @@ server <- function(input, output, session){
 
   })
 
+  crop_photo <- reactive({
+    if(input$habitat_type_photo == TRUE){
+      image(src = "image_habitat")
+    }
+    else{
+    }
+  }
+  )
   
+  #   ### Define habitat images
+  output$image_habitat <- renderImage({
+    ### When input$n is 'Urban', filename is ./photos/image_Urban.jpg
+    filename <- here('./photos',paste('image_', input$habitat_type_photo, '.jpg', sep=''))
+    list(src = filename,
+         alt = paste("Habitat type: ", input$habitat_type_photo), width = 500, height = 350)
+    
+  }, deleteFile = FALSE)
   
-  
+  output$crop_pics <- renderImage({
+    ### When input$n is 'Urban', filename is ./photos/image_Urban.jpg
+    filename <- here('./photos',paste('image_', input$habitat_type_photo, '.jpg', sep=''))
+    list(src = filename,
+         alt = paste("Crop: ", input$habitat_type_photo), width = 500, height = 350)
+    
+  }, deleteFile = FALSE)
+  })
   
   
   
