@@ -111,12 +111,12 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                           ) ### end of h3
                               ), ### end of fluidRow 
                       fluidRow(
-                        "(Feel free to edit the following:) This project is meant to help visualize Agricultural Evapotranspiration (ET) 
+                        "This project is meant to help visualize Agricultural Evapotranspiration (ET) 
                         data provided by Anna Boser, a 3rd year Bren School PhD student. Evapotranspiration refers
                         to the movement of water from the earth to the atmosphere. In this dataset, Agricultural ET is calculated by
                         taking observed ET from satellites and subtracting natural ET (simulated using machine learning). Here we 
-                        visualize this data by county (second tab) and by crop type (third tab). Irrigation efficiency is also calculated by dividing Agricultural ET
-                        by Total Irrigation. By visualizing this data we can see how much water counties in California are using for agriculture and how efficient they are at using 
+                        visualize this data by county and by crop type. Irrigation efficiency is also calculated by dividing Agricultural ET
+                        by Total Irrigation.\nBy visualizing this data we can see how much water counties in California are using for agriculture and how efficient they are at using 
                        it. Ultimately, this data can help inform water resource management decisions by highlighting which parts of the 
                         state are using the most water for agriculture, how efficient they are, and which crops are using the most water."
                               ), ### end of fluidRow
@@ -199,7 +199,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                    div(style='height:50px'),
 
                      virtualSelectInput(inputId = 'pick_et',
-                                 label = 'Select Variable:',
+                                 label = 'Select Variable',
                                  choices = c( "Agricultural ET (cm/yr)" = "ag_ET",
                                              "Simulated Natural ET (cm/yr)" = "ET_pred"),
                                  showValueAsTags = TRUE,
