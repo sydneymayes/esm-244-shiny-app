@@ -25,16 +25,6 @@ et_crops_no_observed <- et_crops %>%
   filter(type != 'ET')
 
 
-
-
-
-
-
-
-
-
-### End of Syd's section!
-
 ### CA counties shapefile
 ca_counties_sf <- read_sf(here("data/ca_counties/CA_Counties_TIGER2016.shp")) %>% 
   clean_names()
@@ -78,11 +68,11 @@ final_sf <- et_counties_clean %>%
 
 ### setting up colors and legend for map on overview tab
 
-color_list <- list(mm_year = c('red', 'orange', 'yellow'),
-                   et_mm_year = c('green', 'blue', 'purple'),
-                   ag_et_mm_year = c('cyan', 'blue', 'purple'),
-                   pred_et_mm_year = c('purple', 'pink', 'red'),
-                   irrigation_efficiency = c('cyan', 'blue', 'midnightblue'))
+color_list <- list(mm_year = c('blue4', 'blue', 'cyan'),
+                   et_mm_year = c('firebrick4', 'orange', 'yellow'),
+                   ag_et_mm_year = c('seagreen', 'skyblue3', 'plum3'),
+                   pred_et_mm_year = c('goldenrod4', 'sienna1', 'saddlebrown'),
+                   irrigation_efficiency = c('palegreen3', 'turquoise', 'slateblue'))
 
 
 legend_list <- list(mm_year = c("Irrigation (mm/yr)"),
@@ -98,27 +88,6 @@ color_list_2 <- list(mm_year = c('blue4'),
                    pred_et_mm_year = c('goldenrod4'),
                    irrigation_efficiency = c('palegreen3'))
 
-### (### THIS IS SPACE FOR RACHEL TO CODE ###)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### End of Rachel's section!
 
 ### creating regions and region column
 cv = c('Butte', 'Colusa', 'Fresno', 'Glenn', 'Kern', 'Kings', 'Madera', 'Merced', 'Placer', 'San Joaquin', 'Sacramento', 'Shasta', 'Solano', 'Stanislaus', 'Sutter', 'Tehama', 'Tulare', 'Yolo', 'Yuba')
@@ -130,27 +99,6 @@ et_counties_mod <- et_counties_clean %>%
                             name %in% nc ~ "Northern California",
                             name %in% sc ~ "Southern California"))
 
-### (### THIS IS SPACE FOR ASHLEY TO CODE ###)
-
-  
-  
-  
-  
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-  
-### End of Ashley's section!
 
 ### Create the user interface (shiny uses camelCase)
 ui <- fluidPage(theme = shinytheme('sandstone'),
@@ -308,9 +256,6 @@ server <- function(input, output, session){
   
   ggplotly(california_map, tooltip = "text") %>% 
     style(hoveron = 'fill')
-  
-  
-  ## https://community.plotly.com/t/how-to-make-tooltips-show-in-region-rather-than-on-border-map-using-ggplotly/13507
 
       
   })
@@ -370,7 +315,8 @@ server <- function(input, output, session){
     # decided to change back to mm for consistency across tabs
     ggplot() + 
       geom_col(data = crop_fill(), aes(x = cropnames, y = ET, fill = type), alpha = .6) +
-      scale_fill_manual(values=c(ag_ET="seagreen", ET_pred="goldenrod4"), breaks=c("ag_ET","ET_pred"), labels = c("Agricultural ET", "Simulated natural ET")) +
+      scale_fill_manual(values=c(ag_ET="seagreen", ET_pred="goldenrod4"), 
+                        breaks=c("ag_ET","ET_pred"), labels = c("Agricultural ET", "Simulated natural ET")) +
       ylab("mm/year") + 
       theme_classic() + 
       labs(fill='') + 
@@ -381,16 +327,7 @@ server <- function(input, output, session){
             legend.direction="horizontal", 
             legend.title=element_blank())
     
-  
-    
-   
-    
-   
-    
-    
-      
-                        
-  
+
   })
 
   
