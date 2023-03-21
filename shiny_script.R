@@ -230,6 +230,12 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
              
             tabPanel("ET by Crop Type",
                       sidebarPanel(
+                        tags$head(tags$style(type = "text/css", paste0(".vscomp-dropbox {
+                                                        position: absolute !important;
+                                                        bottom: 100% !important;
+                                                        top: auto !important;
+                                                     }}"))),
+                                   div(style='height:50px'),
 
                      virtualSelectInput(inputId = 'pick_et',
                                  label = 'Select Variable:',
@@ -371,7 +377,7 @@ server <- function(input, output, session){
     #scalar = 1.2 #-- multiply ET by this if you want to convert to cm
     # decided to change back to mm for consistency across tabs
     ggplot() + 
-      geom_col(data = crop_fill(), aes(x = reorder(cropnames, ET), y = ET, text = paste("ET:", ET*scalar), fill = type), alpha = .6) +
+      geom_col(data = crop_fill(), aes(x = cropnames, y = ET, text = paste("ET:", ET*scalar), fill = type), alpha = .6) +
       scale_fill_manual(values=c(ag_ET="seagreen", ET_pred="goldenrod4"), breaks=c("ag_ET","ET_pred"), labels = c("Agricultural ET", "Simulated natural ET")) +
       ylab("mm/year") + 
       theme_classic() + 
