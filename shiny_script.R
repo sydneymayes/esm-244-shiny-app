@@ -53,6 +53,10 @@ final_sf <- et_counties_clean %>%
   pivot_longer(cols = mm_year:irrigation_efficiency,
                names_to = "var",
                values_to = "values") %>% 
+  mutate(values_text = case_when(is.na(values) ~ "No data", 
+                                 TRUE ~ round(values, 2) %>% as.character())) %>% 
+                                 
+
   mutate(text = paste0(name, " County", "\n",
                        case_when(
                          var %in% "mm_year" ~ "Irrigation (mm/year)",
@@ -60,14 +64,14 @@ final_sf <- et_counties_clean %>%
                          var %in% "ag_et_mm_year"~ "Agricultural ET (mm/year)",
                          var %in% "pred_et_mm_year" ~ "Simulated Natural ET (mm/year)",
                          var %in% "irrigation_efficiency" ~ "Irrigation Efficiency"),
-                       ":", " ", round(values, 0.01), " ",
+                       ":", " ", values_text, " ",
                        case_when(
                          var %in% "mm_year" ~ "mm",
                          var %in% "et_mm_year" ~ "mm",
                          var %in% "ag_et_mm_year"~ "mm",
                          var %in% "pred_et_mm_year" ~ "mm",
-                         var %in% "irrigation_efficiency" ~ "%"))) %>% 
-  mutate(text = ifelse(is.na(values), "No data", text))
+                         var %in% "irrigation_efficiency" ~ "%"))) 
+  # mutate(text = ifelse(is.na(values), "No data", text))
 
 
 
@@ -156,8 +160,8 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                       
                       fluidRow(
                         h3("Background"
-                        ) ### end of h2
-                      ), ### end of fluidRow 
+                          ) ### end of h3
+                              ), ### end of fluidRow 
                       fluidRow(
                         "(Feel free to edit the following:) This project is meant to help visualize Agricultural Evapotranspiration (ET) 
                         data provided by Anna Boser, a 3rd year Bren School PhD student. Evapotranspiration refers
@@ -167,9 +171,10 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                         by Total Irrigation. By visualizing this data we can see how much water counties in California are using for agriculture and how efficient they are at using 
                        it. Ultimately, this data can help inform water resource management decisions by highlighting which parts of the 
                         state are using the most water for agriculture, how efficient they are, and which crops are using the most water."
-                      ), ### end of fluidRow
-      
-                      
+                              ), ### end of fluidRow
+                      ), #End "Overview" tabPanel
+             
+             tabPanel("Map",
                       sidebarLayout(
                         sidebarPanel(
                           radioButtons(inputId = 'pick_variable_map',
@@ -179,16 +184,15 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                                    "Agricultural ET (mm/yr)" = "ag_et_mm_year", 
                                                    "Simulated Natural ET (mm/yr)" = "pred_et_mm_year", 
                                                    "Irrigation Efficiency" = "irrigation_efficiency")
-                                       ) # end of radioButtons
-                                     ), # End of Overview sidebarPanel
+                                      ) # end of radioButtons
+                                    ), # End of Map sidebarPanel
                         
                         mainPanel("Put my map here!",
-                                   plotlyOutput(outputId = 'ca_map')
+                                  plotlyOutput(outputId = 'ca_map')
                                   ) ### end mainPanel
                         
-                                    ), #end of Overview sideBarLayout
-                      ), #End "Overview" tabPanel
-             
+                                  ) #end of Map sideBarLayout 
+                      ), #End of "Map" tabPanel
              
              
              tabPanel("Counties",
