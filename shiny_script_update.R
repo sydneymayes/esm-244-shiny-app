@@ -45,8 +45,6 @@ final_sf <- et_counties_clean %>%
                values_to = "values") %>% 
   mutate(values_text = case_when(is.na(values) ~ "No data", 
                                  TRUE ~ round(values, 2) %>% as.character())) %>% 
-                                 
-
   mutate(text = paste0(name, " County", "\n",
                        case_when(
                          var %in% "mm_year" ~ "Irrigation (mm/year)",
@@ -88,17 +86,17 @@ color_list_2 <- list(mm_year = c('blue4'),
                    pred_et_mm_year = c('goldenrod4'),
                    irrigation_efficiency = c('palegreen3'))
 
-
-### creating regions and region column
-cv = c('Butte', 'Colusa', 'Fresno', 'Glenn', 'Kern', 'Kings', 'Madera', 'Merced', 'Placer', 'San Joaquin', 'Sacramento', 'Shasta', 'Solano', 'Stanislaus', 'Sutter', 'Tehama', 'Tulare', 'Yolo', 'Yuba')
-nc = c('Alameda', 'Alpine', 'Amador', 'Calaveras', 'Contra Costa', 'Del Norte', 'El Dorado', 'Humboldt', 'Inyo', 'Lake', 'Lassen', 'Marin', 'Mariposa', 'Mendocino', 'Modoc', 'Mono', 'Monterey', 'Napa', 'Nevada', 'Placer', 'Plumas', 'San Benito', 'San Mateo', 'Santa Clara', 'Santa Cruz', 'Sierra', 'Siskiyou', 'Sonoma', 'Trinity', 'Tuolumne')
-sc = c('Imperial', 'Los Angeles', 'Orange', 'Riverside', 'San Bernardino', 'San Diego', 'San Luis Obispo', 'Santa Barbara', 'Ventura')
-
-et_counties_mod <- et_counties_clean %>% 
-  mutate(region = case_when(name %in% cv ~ "Central Valley",
-                            name %in% nc ~ "Northern California",
-                            name %in% sc ~ "Southern California"))
-
+### Creating a dataframe for reactive crop citations
+photo_citations <- list( citrus = "Crop: Citrus and subtropical. Citation: ",
+                         deciduous = "Crop: Deciduous fruit and nuts. Citation: ",
+                         fallow =  "Crop: Fallow. Citation: ",
+                         field = "Crop: Field crops. Citation: ",
+                         hay = "Crop: Grain and hay crops. Citation: ",
+                         pasture = "Crop: Pasture. Citation: ",
+                         rice = "Crop: Rice. Citation: ",
+                         berry = "Crop: Truck, nursery, and berry crops. Citation: ",
+                         vineyard = "Crop: Vineyards. Citation: ",
+                         perennial = "Crop: Young Perennial. Citation: ")
 
 ### Create the user interface (shiny uses camelCase)
 ui <- fluidPage(theme = shinytheme('sandstone'),
