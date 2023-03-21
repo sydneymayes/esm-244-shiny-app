@@ -97,13 +97,13 @@ et_counties_mod <- et_counties_clean %>%
 
 
 ### Creating a dataframe for reactive crop citations
-photo_citations <- list(citrus = "Crop: Citrus and subtropical. Citation: ",
-                         deciduous = "Crop: Deciduous fruit and nuts. Citation: https://gardenerspath.com/wp-content/uploads/2019/12/Cold-Hardy-Figs-FB.jpg",
-                         fallow =  c("Crop: Fallow.", "\n", "Citation: https://judekampfner.com/wp-content/uploads/2020/02/fallow-field-imageSIZED.jpg"),
-                         field = "Crop: Field crops. Citation: https://s3.amazonaws.com/assets.cce.cornell.edu/slides/1644/image/sized/Gill_Farms.jpg",
-                         hay = c("Crop: Grain and hay crops.", "\n", "Citation: https://tinyurl.com/ywr2s58b"),
-                         pasture = "Crop: Pasture. Citation: https://img.hobbyfarms.com/cow_cattle_pasture_grass.jpg",
-                         rice = "Crop: Rice. Citation: https://www.csuchico.edu/regenerativeagriculture/_assets/images/blog/rice/blog-rice.jpg",
+photo_citations <- list(citrus = "Crop: Citrus and subtropical. Citation: https://tinyurl.com/yne9wzyn",
+                         deciduous = "Crop: Deciduous fruit and nuts. Citation: https://tinyurl.com/48rf5zvr",
+                         fallow =  "Crop: Fallow. Citation: https://tinyurl.com/yrnrsjj4",
+                         field = "Crop: Field crops. Citation: https://tinyurl.com/ht2ramc4",
+                         hay = "Crop: Grain and hay crops. Citation: https://tinyurl.com/ywr2s58b",
+                         pasture = "Crop: Pasture. Citation:  https://tinyurl.com/4848pcmj",
+                         rice = "Crop: Rice. Citation: https://tinyurl.com/32xuc6ut",
                          berry = "Crop: Truck, nursery, and berry crops. Citation: https://tinyurl.com/2zncb7xu",
                          vineyard = "Crop: Vineyards. Citation: https://tinyurl.com/3837d3zx",
                          perennial = "Crop: Young Perennial. Citation: https://tinyurl.com/2saebfk5")
