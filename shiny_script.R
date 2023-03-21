@@ -225,11 +225,9 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                               ) # end of radioButtons
                      ) # end of radioButtons
                      
-                     
-                     
-                     
                                  ), #end sidebarPanel
 
+                     
                      mainPanel(h2("Exploring Evapotranspiration Data by Crop Type", align = "center"),
                                plotlyOutput(outputId = 'crop_graph'),
                                
