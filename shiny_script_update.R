@@ -52,13 +52,14 @@ final_sf <- et_counties_clean %>%
                          var %in% "ag_et_mm_year"~ "Agricultural ET (mm/year)",
                          var %in% "pred_et_mm_year" ~ "Simulated Natural ET (mm/year)",
                          var %in% "irrigation_efficiency" ~ "Irrigation Efficiency"),
-                       ":", " ", values_text, " ",
+                       ":", " ", round(values, 0.01), " ",
                        case_when(
                          var %in% "mm_year" ~ "mm",
                          var %in% "et_mm_year" ~ "mm",
                          var %in% "ag_et_mm_year"~ "mm",
                          var %in% "pred_et_mm_year" ~ "mm",
-                         var %in% "irrigation_efficiency" ~ "%"))) 
+                         var %in% "irrigation_efficiency" ~ "%"))) %>% 
+  mutate(text = ifelse(is.na(values), "No data", text)) 
   # mutate(text = ifelse(is.na(values), "No data", text))
 
 
