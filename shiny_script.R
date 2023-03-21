@@ -187,7 +187,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                       ) # end of radioButtons
                                     ), # End of Map sidebarPanel
                         
-                        mainPanel("Put my map here!",
+                        mainPanel(h2("Spatial Exploration of Countywide Irrigation and Evapotranspiration Data", align = "center"),
                                   plotlyOutput(outputId = 'ca_map')
                                   ) ### end mainPanel
                         
