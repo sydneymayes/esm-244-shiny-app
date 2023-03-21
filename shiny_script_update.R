@@ -97,7 +97,7 @@ et_counties_mod <- et_counties_clean %>%
 
 
 ### Creating a dataframe for reactive crop citations
-photo_citations <- list( citrus = "Crop: Citrus and subtropical. Citation: https://cdn.farmjournal.com/s3fs-public/2021-05/Sunkist%20Ojai%20Pixie.jpg",
+photo_citations <- list(citrus = "Crop: Citrus and subtropical. Citation: https://cdn.farmjournal.com/s3fs-public/2021-05/Sunkist%20Ojai%20Pixie.jpg",
                          deciduous = "Crop: Deciduous fruit and nuts. Citation: https://gardenerspath.com/wp-content/uploads/2019/12/Cold-Hardy-Figs-FB.jpg",
                          fallow =  "Crop: Fallow. Citation: https://judekampfner.com/wp-content/uploads/2020/02/fallow-field-imageSIZED.jpg",
                          field = "Crop: Field crops. Citation: https://s3.amazonaws.com/assets.cce.cornell.edu/slides/1644/image/sized/Gill_Farms.jpg",
@@ -401,8 +401,13 @@ server <- function(input, output, session){
   }, deleteFile = FALSE)
   
   
+  filtered_citations <- reactive ({
+    photo_citations %>% 
+      pluck(input$pick_crop_photo)
+  })
+  
   output$crop_citations <- renderText({
-    paste(photo_citations, input$pick_crop_photo)
+    filtered_citations()
   })
   
 } ### end of server function
