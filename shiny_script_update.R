@@ -250,9 +250,10 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                               "Vineyards" = "vineyard",
                                               "Young Perennial" = "perennial"
                                               ), # end of choices
-                                  selected = "citrus"
-                     ) # end of radioButtons
-                        
+                                  selected = "citrus",
+                     ), # end of radioButtons
+                     
+                      textOutput("crop_citations")  
                        
                                  ), #end sidebarPanel
 
@@ -400,7 +401,9 @@ server <- function(input, output, session){
   }, deleteFile = FALSE)
   
   
-  
+  output$crop_citations <- renderText({
+    paste(photo_citations, input$pick_crop_photo)
+  })
   
 } ### end of server function
 
