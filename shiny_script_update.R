@@ -125,14 +125,17 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                       efficiently it is used. Ultimately, these data can help inform water resource management decisions by highlighting 
                       which parts of the state use the most water, which have the lowest irrigation efficiency, and which crops 
                       have the highest water demand."),
-                              ), ### end of fluidRow
+                      
+                      p("For more information on this project, please visit Anna Boser's website at: https://anna-boser.github.io/" 
+                        )
+                      ), ### end of fluidRow
                       
                       column(12, align="center",
                              br(),
                              img(src = "https://extension.umn.edu/sites/extension.umn.edu/files/soil-water-components.png", 
                                  width = 500),
                              p("Sourced from University of Minnesota Extension")
-                      ) #end of column
+                      ), #end of column
                       
                       
                       ), #End "Overview" tabPanel
@@ -266,6 +269,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
 
 ### Create the server function
 server <- function(input, output, session){
+  
   
 ### Tab 1 (Rachel)
   
