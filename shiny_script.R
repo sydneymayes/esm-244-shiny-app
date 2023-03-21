@@ -251,19 +251,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                  selected = c("ag_ET", "ET_pred")
                                  ), # end selectInput,
 
-                     # Not sure how to make all options visible; they currently disappear under the title
-                     # virtualSelectInput(inputId = "select_crop",
-                     #                    label = "Select Crops",
-                     #                    choices = unique(et_crops$cropnames),
-                     #                    showValueAsTags = TRUE,
-                     #                    search = TRUE,
-                     #                    multiple = TRUE
-                     #
-                     #                    ),
-
-
-
-                     # Checkbox instead!
+                  
 
                      awesomeCheckboxGroup(
                        inputId = "select_crop",
@@ -381,7 +369,7 @@ server <- function(input, output, session){
     scalar = 1.2 #-- multiply ET by this if you want to convert to cm
     # decided to change back to mm for consistency across tabs
     ggplot() + 
-      geom_col(data = crop_fill(), aes(x = cropnames, y = ET, text = paste("ET:", ET*scalar), fill = type), alpha = .6) +
+      geom_col(data = crop_fill(), aes(x = cropnames, y = ET, fill = type), alpha = .6) +
       scale_fill_manual(values=c(ag_ET="seagreen", ET_pred="goldenrod4"), breaks=c("ag_ET","ET_pred"), labels = c("Agricultural ET", "Simulated natural ET")) +
       ylab("mm/year") + 
       theme_classic() + 
