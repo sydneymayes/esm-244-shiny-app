@@ -344,7 +344,7 @@ server <- function(input, output, session){
 
   output$counties_plot <- renderPlotly({
     counties_map <- ggplot(data = counties_plot_fill(),
-                            aes(x = values, y = names, fill = values, text = text),
+                            aes(x = values, y = name, fill = values, text = text),
                             alpha = .6) +
       geom_col(fill = var_color_tab2()) +
       labs(y = "County", x = x_axis()) +
