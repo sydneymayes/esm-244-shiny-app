@@ -186,6 +186,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                                   "Agricultural ET (mm/yr)" = "ag_et_mm_year", 
                                                   "Natural ET (mm/yr)" = "pred_et_mm_year", 
                                                   "Irrigation Efficiency" = "irrigation_efficiency")
+                                      selected = c("Alameda")
                           ), # end selectInput
                           virtualSelectInput(inputId = "select_county",
                                              label = "Select Counties",
@@ -327,7 +328,7 @@ server <- function(input, output, session){
   
   counties_plot_fill <- reactive({
     final_sf %>%
-      filter(name %in% input$select_county, var %in% input$pick_variable)
+      filter(var %in% input$pick_variable, name %in% input$select_county)
   })
   
   var_color_tab2 <- reactive({
@@ -336,18 +337,18 @@ server <- function(input, output, session){
   })
 
   
-  y_axis <- reactive ({
+  x_axis <- reactive ({
     legend_list %>% 
       pluck(input$pick_variable)
   })
 
   output$counties_plot <- renderPlotly({
     counties_map <- ggplot(data = counties_plot_fill(),
-                            aes(x = name, y = values, fill = values, text = text),
+                            aes(x = value, y = names, fill = values, text = text),
                             alpha = .6) +
       geom_col(fill = var_color_tab2()) +
-      labs(x = "County", y = y_axis()) +
-      theme_classic()+
+      labs(y = "County", x = x_axis()) +
+      theme_classic() +
       theme(legend.position = "none")
     
     ggplotly(counties_map, tooltip = "text")
@@ -394,7 +395,7 @@ server <- function(input, output, session){
   )
   
   output$crop_pics <- renderImage({
-    filename <- here('./data/crop_pics',paste(input$pick_crop_photo, '.jpeg', sep=''))
+    filename <- here('./data/crop_pics', paste(input$pick_crop_photo, '.jpeg', sep=''))
     list(src = filename,
          alt = paste("Crop: ", input$pick_crop_photo), width = 600, height = 350, align = "center")
     
