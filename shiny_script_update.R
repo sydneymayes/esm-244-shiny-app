@@ -186,7 +186,7 @@ ui <- fluidPage(theme = shinytheme('sandstone'),
                                                   "Agricultural ET (mm/yr)" = "ag_et_mm_year", 
                                                   "Natural ET (mm/yr)" = "pred_et_mm_year", 
                                                   "Irrigation Efficiency" = "irrigation_efficiency"),
-                                      selected = "Alameda"
+                                      selected = "Alameda",
                           ), # end selectInput
                           virtualSelectInput(inputId = "select_county",
                                              label = "Select Counties",
